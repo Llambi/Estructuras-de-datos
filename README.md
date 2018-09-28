@@ -4,7 +4,7 @@ Repositorio que contiene el proyecto de las practicas de Estructuras de Datos (2
 
 ## Contenido
 
-- [ ] Algoritmia
+- [x] Algoritmia
 - [ ] Grafos
 - [ ] Árboles
 - [ ] Montícuculos

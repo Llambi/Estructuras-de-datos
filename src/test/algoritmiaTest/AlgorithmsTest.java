@@ -1,4 +1,4 @@
-package algoritmiaTest;
+package test.algoritmiaTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -23,10 +23,25 @@ public class Graph<T> {
 			this.nodos = (T[]) new Object[tam];
 			// Inicializada matriz de aristas.
 			this.aristas = new boolean[tam][tam];
+			initAristas(tam);
 			// inicializada matriz de pesos
 			this.pesos = new double[tam][tam];
 			// inicializado numero de nodos
 			this.numNodes = 0;
+		}
+	}
+
+	/**
+	 * Metodo que inicializa una matriz de tam*tam a false en todas sus posiciones
+	 * 
+	 * @param tam
+	 *            tamaño de la matriz cuadrada
+	 */
+	private void initAristas(int tam) {
+		for (int i = 0; i < tam; i++) {
+			for (int j = 0; j < tam; j++) {
+				this.aristas[i][j] = false;
+			}
 		}
 	}
 

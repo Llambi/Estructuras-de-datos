@@ -1,17 +1,13 @@
-package grafo;
+package p2Grafos;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 
 public class Graph<T> {
 
 	protected T[] nodos; // Vector de nodos
-
 	protected boolean[][] aristas; // matriz de aristas
-
 	protected double[][] pesos; // matriz de pesos
-
-	protected int numNodes; // nÃºmero de elementos en un momento dado
+	protected int numNodes; // numero de elementos en un momento dado
 
 	/**
 	 * Metodo que crea el grafo, inicializando el vector de nodos, y las matrices de
@@ -19,7 +15,6 @@ public class Graph<T> {
 	 * 
 	 * @param tam
 	 *            Numero de nodos del grafo.
-	 * 
 	 */
 	@SuppressWarnings("unchecked")
 	public Graph(int tam) {
@@ -28,7 +23,6 @@ public class Graph<T> {
 			this.nodos = (T[]) new Object[tam];
 			// Inicializada matriz de aristas.
 			this.aristas = new boolean[tam][tam];
-			Arrays.fill(this.aristas, false);
 			// inicializada matriz de pesos
 			this.pesos = new double[tam][tam];
 			// inicializado numero de nodos
@@ -37,8 +31,8 @@ public class Graph<T> {
 	}
 
 	/**
-	 * Inserta un nuevo nodo que se le pasa como parÃ¡metro, en el vector de nodos,
-	 * (si existe no lo inserta pero lo implementaremos mÃ¡s adelanteâ€¦)
+	 * Inserta un nuevo nodo que se le pasa como parametro, en el vector de nodos,
+	 * (si existe no lo inserta pero lo implementaremos mas adelante)
 	 * 
 	 * @param node
 	 *            el nodo que se quiere insertar
@@ -46,22 +40,21 @@ public class Graph<T> {
 	 * @return 0 si lo inserta, -1 si no puede insertarlo
 	 */
 	public int addNode(T node) {
-		if (getNode(node) == -1) {
-			this.nodos[this.numNodes++] = node;
+		if (this.numNodes != this.nodos.length && node != null && getNode(node) == -1) {
+			this.nodos[this.numNodes] = node;
+			this.numNodes++;
 			return 0;
 		}
 		return -1;
 	}
 
 	/**
-	 * 
-	 * Obtiene el Ã­ndice de un nodo en el vector de nodos Â¡Â¡Â¡ OJO que es privado
-	 * porque depende de la implementaciÃ³n !!!
+	 * Obtiene el indice de un nodo en el vector de nodos
 	 * 
 	 * @param node
 	 *            el nodo que se busca
 	 * 
-	 * @return la posiciÃ³n del nodo en el vector Ã³ -1 si no lo encuentra
+	 * @return la posicion del nodo en el vector Ã³ -1 si no lo encuentra
 	 */
 	private int getNode(T node) {
 		if (node != null) {
@@ -75,7 +68,6 @@ public class Graph<T> {
 	}
 
 	/**
-	 * 
 	 * Inserta una arista con el peso indicado (> 0) entre dos nodos, uno origen y
 	 * otro destino. Devuelve 0 si la inserta y -1 si no lo hace (si existe no la
 	 * inserta)
@@ -89,32 +81,62 @@ public class Graph<T> {
 	 * @param edgeWeight
 	 *            peso de la arista, debe ser > 0
 	 * 
-	 * @return 0 si lo hace y -1 si no lo hace (tambiÃ©n si el peso es <= 0)
-	 * 
+	 * @return 0 si lo hace y -1 si no lo hace (tambien si el peso es <= 0)
 	 */
 
 	public int addEdge(T source, T target, double edgeWeight) {
-		if (!existEdge(source, target)) {
-			this.aristas[getNode(source)][getNode(target)] = true;
-			this.pesos[getNode(source)][getNode(target)] = edgeWeight;
+		if (edgeWeight < 0)
+			return -1;
+
+		if (!existEdge(source, target) && (existNode(source)) && (existNode(target))) {
+			int i = getNode(source);
+			int j = getNode(target);
+
+			this.aristas[i][j] = true;
+			this.pesos[i][j] = edgeWeight;
 			return 0;
+
+		} else if (existEdge(source, target)) {
+			int i = getNode(source);
+			int j = getNode(target);
+			this.aristas[i][j] = true;
+			this.pesos[i][j] = edgeWeight;
+			return 0;
+
+		} else {
+			return -1;
 		}
-		return -1;
 	}
 
 	/**
-	 * Borra el nodo deseado del vector de nodos asÃ­ como las aristas de las que
+	 * Borra el nodo deseado del vector de nodos asi como las aristas de las que
 	 * forma parte
 	 * 
 	 * @param node
 	 *            que se quiere borrar
 	 * 
 	 * @return 0 si lo borra y -1 si no lo hace
-	 * 
 	 */
-
 	public int removeNode(T node) {
-		// TODO:
+		int i = getNode(node);
+		if (i >= 0) {
+			--this.numNodes; // Si es el ultimo nodo no hace falta mas por que sera info basura
+			if (i != this.numNodes + 1) {
+				this.nodos[i] = this.nodos[this.numNodes]; // Cambio si no es el ultimo nodo
+				// Cambio de valores en los vectores correspondientes de aristas y pesos
+				for (int j = 0; j <= this.numNodes; j++) {
+					this.aristas[j][i] = this.aristas[j][this.numNodes];
+					this.aristas[i][j] = this.aristas[this.numNodes][j];
+					this.pesos[i][j] = this.pesos[this.numNodes][j];
+					this.pesos[j][i] = this.pesos[j][this.numNodes];
+				}
+				for (int j = 0; j < this.numNodes; j++) {
+					this.aristas[i][i] = this.aristas[this.numNodes][this.numNodes];
+					this.pesos[i][i] = this.pesos[this.numNodes][this.numNodes];
+				}
+			}
+			return 0;
+		}
 		return -1;
 	}
 
@@ -127,12 +149,18 @@ public class Graph<T> {
 	 * @param target
 	 *            nodo destino
 	 * 
-	 * @return 0 si la borra y -1 si no lo hace (tambiÃ©n si no existe alguno de sus
+	 * @return 0 si la borra y -1 si no lo hace (tambien si no existe alguno de sus
 	 *         nodos)
 	 */
 	public int removeEdge(T source, T target) {
-		// TODO:
-		return -1;
+		if (existEdge(source, target)) {
+			int i = getNode(source);
+			int j = getNode(target);
+			this.aristas[i][j] = false;
+			this.pesos[i][j] = 0.0;
+			return 0;
+		} else
+			return -1;
 	}
 
 	/**
@@ -148,7 +176,7 @@ public class Graph<T> {
 	}
 
 	/**
-	 * Comprueba si existe una arista entre dos nodos que se pasan como parÃ¡metro
+	 * Comprueba si existe una arista entre dos nodos que se pasan como parametro
 	 * 
 	 * @param source
 	 *            nodo origen
@@ -157,7 +185,7 @@ public class Graph<T> {
 	 *            nodo destino
 	 * 
 	 * @return verdadero o falso si existe o no, si alguno de los nodos no existe
-	 *         tambiÃ©n falso
+	 *         tambien falso
 	 */
 	public boolean existEdge(T source, T target) {
 		return getEdge(source, target) == -1d ? false : true;
@@ -165,7 +193,7 @@ public class Graph<T> {
 
 	/**
 	 * Devuelve el peso de la arista que conecta dos nodos, si no existe la arista,
-	 * devuelve -1 (tambiÃ©n si no existe alguno de los nodos)
+	 * devuelve -1 (tambien si no existe alguno de los nodos)
 	 * 
 	 * @param source
 	 * 
@@ -174,7 +202,8 @@ public class Graph<T> {
 	 * @return El peso de la arista o -1 si no existe
 	 */
 	public double getEdge(T source, T target) {
-		if (source != null && target != null && this.aristas[getNode(source)][getNode(target)]) {
+		if (source != null && target != null && existNode(source) && existNode(target)
+				&& this.aristas[getNode(source)][getNode(target)]) {
 			return this.pesos[getNode(source)][getNode(target)];
 		}
 		return -1d;

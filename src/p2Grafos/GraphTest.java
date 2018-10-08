@@ -1,17 +1,18 @@
 package p2Grafos;
 
-import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class GraphTest {
 
-	public <T> GraphTest() {
+	<T> GraphTest() {
 		T[] nodes = (T[]) new Object[10];
 	}
 
 	@Test
-	public void testAddNode() {
-		Graph<Integer> g = new Graph<Integer>(10);
+	void testAddNode() {
+		Graph<Integer> g = new Graph<>(10);
 
 		// Casos positivos:
 
@@ -35,11 +36,12 @@ class GraphTest {
 
 		// Caso 3: Ya llena
 		assertEquals(-1, g.addNode(10));
+
 	}
 
 	@Test
-	public void testRemoveNode() {
-		Graph<Integer> g = new Graph<Integer>(4);
+	void testRemoveNode() {
+		Graph<Integer> g = new Graph<>(4);
 
 		for (int i = 0; i < 4; i++) {
 			g.addNode(i);
@@ -62,8 +64,8 @@ class GraphTest {
 	}
 
 	@Test
-	public void testExistNode() {
-		Graph<Integer> g = new Graph<Integer>(4);
+	void testExistNode() {
+		Graph<Integer> g = new Graph<>(4);
 		for (int i = 0; i < 4; i++) {
 			g.addNode(i);
 		}
@@ -72,21 +74,21 @@ class GraphTest {
 
 		// Caso 1: Existe
 		for (int i = 0; i < 4; i++) {
-			assertEquals(true, g.existNode(i));
+			assertTrue(g.existNode(i));
 		}
 
 		// Pruebas Negativas:
 
 		// Caso 1: No existe
-		assertEquals(false, g.existNode(5));
+		assertFalse(g.existNode(5));
 
 		// Caso 2: null
-		assertEquals(false, g.existNode(null));
+		assertFalse(g.existNode(null));
 	}
 
 	@Test
-	public void testExistEdge() {
-		Graph<Integer> g = new Graph<Integer>(4);
+	void testExistEdge() {
+		Graph<Integer> g = new Graph<>(4);
 		g.addNode(1);
 		g.addNode(2);
 
@@ -94,26 +96,26 @@ class GraphTest {
 
 		// Caso 1: Existe
 		g.addEdge(1, 2, 10);
-		assertEquals(true, g.existEdge(1, 2));
+		assertTrue(g.existEdge(1, 2));
 
 		// Pruebas Negativas:
 
 		// Caso 1: no existe
-		assertEquals(false, g.existEdge(2, 3));
+		assertFalse(g.existEdge(2, 3));
 
 		// Caso 2: null -> y
-		assertEquals(false, g.existEdge(null, 2));
+		assertFalse(g.existEdge(null, 2));
 
 		// Caso 3: y <- null
-		assertEquals(false, g.existEdge(1, null));
+		assertFalse(g.existEdge(1, null));
 
 		// Caso 4: null -> null
-		assertEquals(false, g.existEdge(null, null));
+		assertFalse(g.existEdge(null, null));
 	}
 
 	@Test
-	public void testAddEdge() {
-		Graph<Integer> g = new Graph<Integer>(4);
+	void testAddEdge() {
+		Graph<Integer> g = new Graph<>(4);
 		g.addNode(1);
 		g.addNode(2);
 
@@ -148,14 +150,11 @@ class GraphTest {
 		// Caso 9: null -> null
 		assertEquals(-1, g.addEdge(null, null, 10));
 
-		// Prueba de toString del grafo
-		assertEquals("NODES\n1\t2\t\n\nEDGES\nF\tT\t\nF\tF\t\n\nWEIGHTS\n-\t10\t\n-\t-\t\n", g.toString());
-		
 	}
 
 	@Test
-	public void testRemoveEdge() {
-		Graph<Integer> g = new Graph<Integer>(10);
+	void testRemoveEdge() {
+		Graph<Integer> g = new Graph<>(10);
 		g.addNode(1);
 		g.addNode(2);
 
@@ -195,8 +194,8 @@ class GraphTest {
 	}
 
 	@Test
-	public void testGetEdge() {
-		Graph<Integer> g = new Graph<Integer>(3);
+	void testGetEdge() {
+		Graph<Integer> g = new Graph<>(3);
 		g.addNode(1);
 		g.addNode(2);
 		g.addNode(3);
@@ -207,13 +206,13 @@ class GraphTest {
 		// Pruebas Positivas:
 
 		// Caso 1: existe
-		assertEquals(10, g.getEdge(1, 2), 0.0);
-		assertEquals(5, g.getEdge(1, 3), 0.0);
+		assertEquals(10.0, g.getEdge(1, 2), 0.1);
+		assertEquals(5.0, g.getEdge(1, 3), 0.1);
 
 		// Pruebas Negativas:
 
 		// Caso 1: no existe
-		assertEquals(-1.0, g.getEdge(2, 1), 0.0);
+		assertEquals(-1.0, g.getEdge(2, 1), 0.1);
 	}
 
 }

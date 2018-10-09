@@ -31,6 +31,35 @@ public class Graph<T> {
     }
 
     /**
+     * Metodo que crea el grafo, inicializando el vector de nodos, y las matrices de
+     * aristas y pesos a un estado concreto para realizar pruebas.
+     *
+     * @param tam Numero de nodos del grafo.
+     * @param initialNodes Nodos iniciales.
+     * @param initialEdges Aristas iniciales.
+     * @param initialWeights Pesos iniciales.
+     */
+    public Graph(int tam, T initialNodes[], boolean[][] initialEdges, double[][] initialWeights) {
+        // Llama al constructor original
+        this(tam);
+
+        // Pero modifica los atributos con los par�metros para hacer pruebas...
+        numNodes = initialNodes.length;
+
+        for (int i = 0; i < numNodes; i++) {
+            // Si el vector de nodos se llama de otra forma (distinto de "nodes"), cambiad el nombre en la l�nea de abajo
+            this.nodos[i] = initialNodes[i];
+            for (int j = 0; j < numNodes; j++) {
+                // Si la matriz de aristas se llama de otra forma (distinto de "edges"), cambiad el nombre en la l�nea de abajo
+                this.aristas[i][j] = initialEdges[i][j];
+                // Si la matriz de pesos se llama de otra forma (distinto de "weights"), cambiad el nombre en la l�nea de abajo
+                this.pesos[i][j] = initialWeights[i][j];
+            }
+        }
+
+    }
+
+    /**
      * Metodo que inicializa una matriz de tam*tam a false en todas sus posiciones
      *
      * @param tam tamaño de la matriz cuadrada

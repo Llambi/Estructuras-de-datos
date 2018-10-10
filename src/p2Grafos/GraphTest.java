@@ -6,10 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GraphTest {
 
-	<T> GraphTest() {
-		T[] nodes = (T[]) new Object[10];
-	}
-
 	@Test
 	void testAddNode() {
 		Graph<Integer> g = new Graph<>(10);
@@ -213,6 +209,75 @@ class GraphTest {
 
 		// Caso 1: no existe
 		assertEquals(-1.0, g.getEdge(2, 1), 0.1);
+	}
+
+	@Test
+	public void testDijsktra() {
+		// Pruebas positivas
+
+		// Case 1: Dijkstra integer
+		Graph<Integer> g = new Graph<Integer>(5);
+		g.addNode(0);
+		g.addNode(1);
+		g.addNode(2);
+		g.addNode(3);
+		g.addNode(4);
+
+		g.addEdge(0, 4, 3);
+		g.addEdge(0, 1, 12);
+		g.addEdge(0, 2, 18);
+
+		g.addEdge(1, 3, 4);
+
+		g.addEdge(4, 1, 2);
+
+		g.addEdge(3, 2, 1);
+		g.addEdge(3, 0, 7);
+
+		double[] result = new double[] { 0.0, 5.0, 10.0, 9.0, 3.0 };
+		double[] dijskCall = g.dijkstra(0);
+
+		for (int i = 0; i < result.length; i++) {
+			assertEquals(result[i], dijskCall[i], 0.1);
+		}
+
+		// Case 2: Dijkstra con String
+		Graph<String> g2 = new Graph<String>(4);
+		g2.addNode("A");
+		g2.addNode("B");
+		g2.addNode("C");
+		g2.addNode("D");
+		g2.addEdge("A", "B", 1);
+		g2.addEdge("A", "C", 5);
+		g2.addEdge("B", "C", 2);
+		g2.addEdge("B", "D", 3);
+		g2.addEdge("D", "A", 4);
+
+		assertArrayEquals(new double[] { 0.0, 1.0, 3.0, 4.0 }, g2.dijkstra("A"), 0.01);
+		assertArrayEquals(new double[] { 7.0, 0.0, 2.0, 3.0 }, g2.dijkstra("B"), 0.01);
+		assertArrayEquals(
+				new double[] { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 0.0, Double.POSITIVE_INFINITY },
+				g2.dijkstra("C"), 0.01);
+		assertArrayEquals(new double[] { 4.0, 5.0, 7.0, 0.0 }, g2.dijkstra("D"), 0.01);
+
+		// Pruebas Negativas:
+
+		// Case 1: Init node doesnt exist
+		assertNull(g.dijkstra(null));
+
+		// Case 2: Dijkstra con aristas de pesos negativos.
+
+		// Este caso no se dara puesto que en el addEdge() no se aceptan pesos
+		// negativos.
+
+		// Graph<Integer> g3 = new Graph<Integer>(3);
+		// g3.addNode(1);
+		// g3.addNode(2);
+		// g3.addNode(3);
+		// g3.addEdge(1, 2, 2.0);
+		// g3.addEdge(2, 3, -2.0);
+		//
+		// assertNull(g3.dijkstra(1));
 	}
 
 }

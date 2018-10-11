@@ -236,7 +236,16 @@ public class Graph<T> {
 	 *         tambien falso
 	 */
 	public boolean existEdge(T source, T target) {
-		return !(getEdge(source, target) == -1d);
+		int i=getNode(source);
+		int j=getNode(target);
+
+		if(!existNode(source) && !existNode(target))
+			return false;
+
+		if(i>=0 && j>=0)
+			return(this.aristas[i][j]);
+		else
+			return false;
 	}
 
 	/**
@@ -250,8 +259,7 @@ public class Graph<T> {
 	 * @return El peso de la arista o -1 si no existe
 	 */
 	public double getEdge(T source, T target) {
-		if (source != null && target != null && existNode(source) && existNode(target)
-				&& this.aristas[getNode(source)][getNode(target)]) {
+		if (existEdge(source, target)) {
 			int i = getNode(source);
 			int j = getNode(target);
 			return this.pesos[i][j];

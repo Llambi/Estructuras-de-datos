@@ -1,0 +1,34 @@
+Empieza Dijkstra ejemplo Teoria
+
+0.0, 3.0, 4.0, 12.0, 7.0, 10.0, 
+Infinity, 0.0, Infinity, 10.0, 5.0, 8.0, 
+Infinity, Infinity, 0.0, 8.0, 3.0, 6.0, 
+Infinity, Infinity, Infinity, 0.0, Infinity, Infinity, 
+Infinity, Infinity, Infinity, 5.0, 0.0, 3.0, 
+Infinity, Infinity, Infinity, 2.0, Infinity, 0.0, 
+
+Termina Dijkstra ejemplo Teoria
+
+Empieza Dijkstra ejemplo Practicas 2018-19 con Arista adicional
+
+0.0, 5.0, 21.0, 20.0, 28.0, 11.0, 
+323.0, 0.0, 16.0, 343.0, 23.0, 6.0, 
+307.0, 312.0, 0.0, 327.0, 7.0, 318.0, 
+309.0, 314.0, 2.0, 0.0, 9.0, 320.0, 
+300.0, 305.0, 321.0, 320.0, 0.0, 311.0, 
+317.0, 322.0, 10.0, 337.0, 17.0, 0.0, 
+
+Termina Dijkstra ejemplo Practicas 2018-19 con Arista adicional
+
+Empieza Dijkstra ejemplo Practicas 2018-19
+
+0.0, 5.0, 21.0, 20.0, 28.0, 11.0, 
+Infinity, 0.0, 16.0, Infinity, 23.0, 6.0, 
+Infinity, Infinity, 0.0, Infinity, 7.0, Infinity, 
+Infinity, Infinity, 2.0, 0.0, 9.0, Infinity, 
+Infinity, Infinity, Infinity, Infinity, 0.0, Infinity, 
+Infinity, Infinity, 10.0, Infinity, 17.0, 0.0, 
+
+Termina Dijkstra ejemplo Practicas 2018-19
+
+Empieza la prueba básica

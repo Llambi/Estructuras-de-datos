@@ -184,6 +184,53 @@ public class Graph<T> {
 	}
 
 	/**
+	 * Devuelve el coste del camino de coste mínimo entre origen y destino según
+	 * Floyd Si no están generadas las matrices de Floyd, las genera. Si no puede
+	 * obtener el valor por alguna razón, devuelve –1 (OJO que es distinto de
+	 * infinito)
+	 **/
+	public double minCostPath(T origen, T destino) {
+		if (origen == null || destino == null || !existNode(origen) || !existNode(destino)) {
+			return -1d;
+		}
+		floyd();
+		double minCost = getAFloyd()[getNode(origen)][getNode(destino)];
+		return minCost == Double.MAX_VALUE ? -1 : minCost;
+	}
+
+	/**
+	 * Indica el camino entre los nodos que se le pasan como parámetros de esta
+	 * forma:
+	 * Origen<tab>(coste0)<tab>Intermedio1<tab>(coste1)….IntermedioN<tab>(costeN)
+	 * Destino Si no hay camino: Origen<tab>(Infinity)<tab>Destino Si Origen y
+	 * Destino coinciden: Origen
+	 * 
+	 * @param origen
+	 * @param destino
+	 * @return El String con lo indicado
+	 */
+	public String path(T origen, T destino) {
+		
+		if (origen == null || destino == null || !existNode(origen) || !existNode(destino)) {
+			return "";
+		}
+		
+		int i = getNode(origen);
+		int j = getNode(destino);
+		
+		if (origen.equals(destino)) {
+			return origen + "coinciden:" + destino;
+		} else if (this.pFloyd[i][j] == -1) {
+			return origen + "\tcoinciden\t(Infinity)\t" + destino;
+		}else {
+			DecimalFormat df = new DecimalFormat("#.##");
+			String cadena = "";
+			
+			
+		}
+	}
+
+	/**
 	 * Inserta un nuevo nodo que se le pasa como parametro, en el vector de nodos,
 	 *
 	 * @param node
@@ -410,38 +457,6 @@ public class Graph<T> {
 		}
 
 		return cadena;
-	}
-
-	/**
-	 * Metodo que inicializa las matrices de A y P para Floyd.
-	 */
-	private void initFloyd() {
-		for (int i = 0; i < this.numNodes; i++) {
-			for (int j = 0; j < this.numNodes; j++) {
-				if (i == j) {
-					this.aFloyd[i][j] = 0; // Diagonal a 0
-					this.pFloyd[i][j] = -1;
-
-				} else {
-					if (edges[i][j]) {
-						this.aFloyd[i][j] = weights[i][j];
-						this.pFloyd[i][j] = i;
-					} else {
-						this.aFloyd[i][j] = Double.POSITIVE_INFINITY;
-						this.pFloyd[i][j] = -1;
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Metodo para eliminar las matrices A y P de Floyd cuando el grafo sea
-	 * modificado.
-	 */
-	private void destroyFloyd() {
-		this.aFloyd = null;
-		this.pFloyd = null;
 	}
 
 	/**

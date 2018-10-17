@@ -5,9 +5,11 @@ import java.text.DecimalFormat;
 public class Graph<T> {
 
 	protected T[] nodos; // Vector de nodos
-	protected boolean[][] aristas; // matriz de aristas
-	protected double[][] pesos; // matriz de pesos
+	protected boolean[][] edges; // matriz de aristas
+	protected double[][] weights; // matriz de pesos
 	protected int numNodes; // numero de elementos en un momento dado
+	private double[][] aFloyd; // matriz de aristas para Floyd
+	private int[][] pFloyd; // matriz de pesos para Floyd
 
 	/**
 	 * Metodo que crea el grafo, inicializando el vector de nodos, y las matrices de
@@ -22,13 +24,122 @@ public class Graph<T> {
 			// Inicializado vector de nodos.
 			this.nodos = (T[]) new Object[tam];
 			// Inicializada matriz de aristas.
-			this.aristas = new boolean[tam][tam];
+			this.edges = new boolean[tam][tam];
 			initAristas(tam);
 			// inicializada matriz de pesos
-			this.pesos = new double[tam][tam];
+			this.weights = new double[tam][tam];
 			// inicializado numero de nodos
 			this.numNodes = 0;
 		}
+	}
+
+	/**
+	 * Metodo que crea el grafo, inicializando el vector de nodos, y las matrices de
+	 * aristas y pesos a un estado concreto para realizar pruebas.
+	 *
+	 * @param tam
+	 *            Numero de nodos del grafo.
+	 * @param initialNodes
+	 *            Nodos iniciales.
+	 * @param initialEdges
+	 *            Aristas iniciales.
+	 * @param initialWeights
+	 *            Pesos iniciales.
+	 */
+	public Graph(int tam, T initialNodes[], boolean[][] initialEdges, double[][] initialWeights) {
+		// Llama al constructor original
+		this(tam);
+
+		// Pero modifica los atributos con los par�metros para hacer pruebas...
+		numNodes = initialNodes.length;
+
+		for (int i = 0; i < numNodes; i++) {
+			// Si el vector de nodos se llama de otra forma (distinto de "nodes"), cambiad
+			// el nombre en la l�nea de abajo
+			this.nodos[i] = initialNodes[i];
+			for (int j = 0; j < numNodes; j++) {
+				// Si la matriz de aristas se llama de otra forma (distinto de "edges"), cambiad
+				// el nombre en la l�nea de abajo
+				this.edges[i][j] = initialEdges[i][j];
+				// Si la matriz de pesos se llama de otra forma (distinto de "weights"), cambiad
+				// el nombre en la l�nea de abajo
+				this.weights[i][j] = initialWeights[i][j];
+			}
+		}
+
+	}
+
+	public Graph(int tam, T initialNodes[], boolean[][] initialEdges, double[][] initialWeights,
+			double[][] initialAfloyd, int[][] initialPfloyd) {
+		// Llama al constructor anterior de inicializaci�n
+		this(tam, initialNodes, initialEdges, initialWeights);
+
+		// Pero modifica los atributos que almacenan las matrices de Floyd con los
+		// par�metros para hacer pruebas...
+
+		if (initialAfloyd != null && initialPfloyd != null) {
+			// Si la matriz A de floyd se llama de otra forma (distinto de "aFloyd"),
+			// cambiad el nombre en la linea de abajo
+			aFloyd = initialAfloyd;
+			// Si la matriz P de floyd se llama de otra forma (distinto de "pFloyd"),
+			// cambiad el nombre en la linea de abajo
+			pFloyd = initialPfloyd;
+		}
+
+	}
+
+	/**
+	 * Aplica el algoritmo de Floyd al grafo
+	 * 
+	 * @return 0 si lo aplica y genera matrices A y P; y –1 si no lo hace
+	 */
+	public int floyd() {
+
+		if (this.numNodes == 0 || existNegativeEdges() == -1) {
+			return -1;
+		}
+
+		this.aFloyd = new double[this.numNodes][this.numNodes];
+		this.pFloyd = new int[this.numNodes][this.numNodes];
+
+		// Inicializacion Matrices aFloyd y pFloyd
+		initFloyd();
+
+		// Algoritmo Floyd:
+		for (int k = 0; k < this.numNodes; k++) {
+			for (int i = 0; i < this.numNodes; i++) {
+				for (int j = 0; j < this.numNodes; j++) {
+
+					if (this.aFloyd[i][k] + this.aFloyd[k][j] < this.aFloyd[i][j]) {
+						this.aFloyd[i][j] = this.aFloyd[i][k] + this.aFloyd[k][j];
+						this.pFloyd[i][j] = k;
+					}
+
+				}
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Devuelve la matriz A de Floyd, con infinito si no hay camino Si no se ha
+	 * invocado a Floyd debe devolver null
+	 * 
+	 * @return la matriz P de Floyd
+	 */
+	protected double[][] getAFloyd() {
+		return this.aFloyd;
+	}
+
+	/**
+	 * Devuelve la matriz P de Floyd, con -1 en las posiciones en las que no hay
+	 * nodo intermedio Si no se ha invocado a Floyd debe devolver null
+	 * 
+	 * @return la matriz P de Floyd
+	 */
+	protected int[][] getPFloyd() {
+		return this.pFloyd;
 	}
 
 	/**
@@ -59,9 +170,9 @@ public class Graph<T> {
 		while (nodoPivote != -1) {
 			s[nodoPivote] = true;
 			for (int nodoIter = 0; nodoIter < this.numNodes; nodoIter++) {
-				if (this.aristas[nodoPivote][nodoIter] == true) {
-					if (d[nodoPivote] + this.pesos[nodoPivote][nodoIter] < d[nodoIter]) {
-						d[nodoIter] = d[nodoPivote] + this.pesos[nodoPivote][nodoIter];
+				if (this.edges[nodoPivote][nodoIter] == true) {
+					if (d[nodoPivote] + this.weights[nodoPivote][nodoIter] < d[nodoIter]) {
+						d[nodoIter] = d[nodoPivote] + this.weights[nodoPivote][nodoIter];
 						p[nodoIter] = nodoPivote;
 					}
 				}
@@ -70,42 +181,6 @@ public class Graph<T> {
 		}
 
 		return d;
-	}
-
-	/**
-	 * Metodo que crea el grafo, inicializando el vector de nodos, y las matrices de
-	 * aristas y pesos a un estado concreto para realizar pruebas.
-	 *
-	 * @param tam
-	 *            Numero de nodos del grafo.
-	 * @param initialNodes
-	 *            Nodos iniciales.
-	 * @param initialEdges
-	 *            Aristas iniciales.
-	 * @param initialWeights
-	 *            Pesos iniciales.
-	 */
-	public Graph(int tam, T initialNodes[], boolean[][] initialEdges, double[][] initialWeights) {
-		// Llama al constructor original
-		this(tam);
-
-		// Pero modifica los atributos con los par�metros para hacer pruebas...
-		numNodes = initialNodes.length;
-
-		for (int i = 0; i < numNodes; i++) {
-			// Si el vector de nodos se llama de otra forma (distinto de "nodes"), cambiad
-			// el nombre en la l�nea de abajo
-			this.nodos[i] = initialNodes[i];
-			for (int j = 0; j < numNodes; j++) {
-				// Si la matriz de aristas se llama de otra forma (distinto de "edges"), cambiad
-				// el nombre en la l�nea de abajo
-				this.aristas[i][j] = initialEdges[i][j];
-				// Si la matriz de pesos se llama de otra forma (distinto de "weights"), cambiad
-				// el nombre en la l�nea de abajo
-				this.pesos[i][j] = initialWeights[i][j];
-			}
-		}
-
 	}
 
 	/**
@@ -119,6 +194,7 @@ public class Graph<T> {
 		if (this.numNodes != this.nodos.length && node != null && getNode(node) == -1) {
 			this.nodos[this.numNodes] = node;
 			this.numNodes++;
+			destroyFloyd();
 			return 0;
 		}
 		return -1;
@@ -146,15 +222,17 @@ public class Graph<T> {
 			int i = getNode(source);
 			int j = getNode(target);
 
-			this.aristas[i][j] = true;
-			this.pesos[i][j] = edgeWeight;
+			this.edges[i][j] = true;
+			this.weights[i][j] = edgeWeight;
+			destroyFloyd();
 			return 0;
 
 		} else if (existEdge(source, target)) {
 			int i = getNode(source);
 			int j = getNode(target);
-			this.aristas[i][j] = true;
-			this.pesos[i][j] = edgeWeight;
+			this.edges[i][j] = true;
+			this.weights[i][j] = edgeWeight;
+			destroyFloyd();
 			return 0;
 
 		} else {
@@ -178,16 +256,17 @@ public class Graph<T> {
 				this.nodos[i] = this.nodos[this.numNodes]; // Cambio si no es el ultimo nodo
 				// Cambio de valores en los vectores correspondientes de aristas y pesos
 				for (int j = 0; j <= this.numNodes; j++) {
-					this.aristas[j][i] = this.aristas[j][this.numNodes];
-					this.aristas[i][j] = this.aristas[this.numNodes][j];
-					this.pesos[i][j] = this.pesos[this.numNodes][j];
-					this.pesos[j][i] = this.pesos[j][this.numNodes];
+					this.edges[j][i] = this.edges[j][this.numNodes];
+					this.edges[i][j] = this.edges[this.numNodes][j];
+					this.weights[i][j] = this.weights[this.numNodes][j];
+					this.weights[j][i] = this.weights[j][this.numNodes];
 				}
 				for (int j = 0; j < this.numNodes; j++) {
-					this.aristas[i][i] = this.aristas[this.numNodes][this.numNodes];
-					this.pesos[i][i] = this.pesos[this.numNodes][this.numNodes];
+					this.edges[i][i] = this.edges[this.numNodes][this.numNodes];
+					this.weights[i][i] = this.weights[this.numNodes][this.numNodes];
 				}
 			}
+			destroyFloyd();
 			return 0;
 		}
 		return -1;
@@ -207,8 +286,9 @@ public class Graph<T> {
 		if (existEdge(source, target)) {
 			int i = getNode(source);
 			int j = getNode(target);
-			this.aristas[i][j] = false;
-			this.pesos[i][j] = 0.0;
+			this.edges[i][j] = false;
+			this.weights[i][j] = 0.0;
+			destroyFloyd();
 			return 0;
 		} else
 			return -1;
@@ -236,14 +316,14 @@ public class Graph<T> {
 	 *         tambien falso
 	 */
 	public boolean existEdge(T source, T target) {
-		int i=getNode(source);
-		int j=getNode(target);
+		int i = getNode(source);
+		int j = getNode(target);
 
-		if(!existNode(source) && !existNode(target))
+		if (!existNode(source) || !existNode(target))
 			return false;
 
-		if(i>=0 && j>=0)
-			return(this.aristas[i][j]);
+		if (i >= 0 && j >= 0)
+			return (this.edges[i][j]);
 		else
 			return false;
 	}
@@ -262,40 +342,36 @@ public class Graph<T> {
 		if (existEdge(source, target)) {
 			int i = getNode(source);
 			int j = getNode(target);
-			return this.pesos[i][j];
+			return this.weights[i][j];
 		}
 		return -1d;
 	}
 
 	/**
-	 * Metodo que dado un grafo saca por consola la lista de nodos, la matriz de
-	 * pesos y de aristas.
-	 *
-	 * @return String con la informacion del grafo
+	 * 
+	 * Devuelve un String con la informacion del grafo (incluyendo matrices de
+	 * Floyd)
+	 * 
 	 */
-	@Override
 	public String toString() {
 
 		DecimalFormat df = new DecimalFormat("#.##");
-
 		String cadena = "";
 
 		cadena += "NODES\n";
 
 		for (int i = 0; i < numNodes; i++) {
-			cadena += nodos[i].toString() + "\t";
+			cadena += this.nodos[i].toString() + "\t";
 		}
 
 		cadena += "\n\nEDGES\n";
 
 		for (int i = 0; i < numNodes; i++) {
 			for (int j = 0; j < numNodes; j++) {
-
-				if (aristas[i][j]) {
+				if (edges[i][j])
 					cadena += "T\t";
-				} else {
+				else
 					cadena += "F\t";
-				}
 			}
 			cadena += "\n";
 		}
@@ -304,12 +380,68 @@ public class Graph<T> {
 
 		for (int i = 0; i < numNodes; i++) {
 			for (int j = 0; j < numNodes; j++) {
-				cadena += (aristas[i][j] ? df.format(pesos[i][j]) : "-") + "\t";
+				cadena += (edges[i][j] ? df.format(weights[i][j]) : "-") + "\t";
 			}
 			cadena += "\n";
 		}
 
+		double[][] aFloyd = getAFloyd();
+
+		if (aFloyd != null) {
+			cadena += "\nAFloyd\n";
+			for (int i = 0; i < numNodes; i++) {
+				for (int j = 0; j < numNodes; j++) {
+					cadena += df.format(aFloyd[i][j]) + "\t";
+				}
+				cadena += "\n";
+			}
+		}
+
+		int[][] pFloyd = getPFloyd();
+
+		if (pFloyd != null) {
+			cadena += "\nPFloyd\n";
+			for (int i = 0; i < numNodes; i++) {
+				for (int j = 0; j < numNodes; j++) {
+					cadena += (pFloyd[i][j] >= 0 ? df.format(pFloyd[i][j]) : "-") + "\t";
+				}
+				cadena += "\n";
+			}
+		}
+
 		return cadena;
+	}
+
+	/**
+	 * Metodo que inicializa las matrices de A y P para Floyd.
+	 */
+	private void initFloyd() {
+		for (int i = 0; i < this.numNodes; i++) {
+			for (int j = 0; j < this.numNodes; j++) {
+				if (i == j) {
+					this.aFloyd[i][j] = 0; // Diagonal a 0
+					this.pFloyd[i][j] = -1;
+
+				} else {
+					if (edges[i][j]) {
+						this.aFloyd[i][j] = weights[i][j];
+						this.pFloyd[i][j] = i;
+					} else {
+						this.aFloyd[i][j] = Double.POSITIVE_INFINITY;
+						this.pFloyd[i][j] = -1;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Metodo para eliminar las matrices A y P de Floyd cuando el grafo sea
+	 * modificado.
+	 */
+	private void destroyFloyd() {
+		this.aFloyd = null;
+		this.pFloyd = null;
 	}
 
 	/**
@@ -352,12 +484,12 @@ public class Graph<T> {
 	private void initDijkstraEstructures(int initNode, double[] d, int[] p, boolean[] s) {
 		for (int i = 0; i < numNodes; i++) {
 
-			if (!this.aristas[initNode][i]) {
+			if (!this.edges[initNode][i]) {
 				d[i] = Double.POSITIVE_INFINITY;
 				p[i] = -1;
 
 			} else {
-				d[i] = this.pesos[initNode][i];
+				d[i] = this.weights[initNode][i];
 				p[i] = initNode;
 			}
 		}
@@ -375,7 +507,7 @@ public class Graph<T> {
 	private int existNegativeEdges() {
 		for (int i = 0; i < this.numNodes; i++) {
 			for (int j = 0; j < this.numNodes; j++) {
-				if (this.pesos[i][j] < 0) {
+				if (this.weights[i][j] < 0) {
 					return -1; // peso negativo
 				}
 			}
@@ -392,7 +524,7 @@ public class Graph<T> {
 	private void initAristas(int tam) {
 		for (int i = 0; i < tam; i++) {
 			for (int j = 0; j < tam; j++) {
-				this.aristas[i][j] = false;
+				this.edges[i][j] = false;
 			}
 		}
 	}
@@ -405,12 +537,11 @@ public class Graph<T> {
 	 * @return la posicion del nodo en el vector Ã³ -1 si no lo encuentra
 	 */
 	private int getNode(T node) {
-		if (node != null) {
-			for (int pos = 0; pos < this.numNodes; pos++) {
-				if (this.nodos[pos].equals(node)) {
-					return pos;
-				}
-			}
+		if (this.nodos == null)
+			return -1;
+		for (int i = 0; i < this.numNodes; i++) {
+			if (this.nodos[i].equals(node))
+				return i;
 		}
 		return -1;
 	}

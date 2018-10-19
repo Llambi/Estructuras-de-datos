@@ -228,6 +228,7 @@ public class Graph<T> {
 			
 			
 		}
+		return null;
 	}
 
 	/**
@@ -395,10 +396,10 @@ public class Graph<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Devuelve un String con la informacion del grafo (incluyendo matrices de
 	 * Floyd)
-	 * 
+	 *
 	 */
 	public String toString() {
 
@@ -457,6 +458,38 @@ public class Graph<T> {
 		}
 
 		return cadena;
+	}
+
+	/**
+	 * Metodo que inicializa las matrices de A y P para Floyd.
+	 */
+	private void initFloyd() {
+		for (int i = 0; i < this.numNodes; i++) {
+			for (int j = 0; j < this.numNodes; j++) {
+				if (i == j) {
+					this.aFloyd[i][j] = 0; // Diagonal a 0
+					this.pFloyd[i][j] = -1;
+
+				} else {
+					if (edges[i][j]) {
+						this.aFloyd[i][j] = weights[i][j];
+//						this.pFloyd[i][j] = i;
+					} else {
+						this.aFloyd[i][j] = Double.POSITIVE_INFINITY;
+						this.pFloyd[i][j] = -1;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Metodo para eliminar las matrices A y P de Floyd cuando el grafo sea
+	 * modificado.
+	 */
+	private void destroyFloyd() {
+		this.aFloyd = null;
+		this.pFloyd = null;
 	}
 
 	/**

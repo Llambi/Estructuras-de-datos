@@ -440,6 +440,199 @@ public class Graph<T> {
     }
 
     /**
+     * Metodo que comprueba si un nodo es nodo fuente
+     *
+     * @param node, el nodo
+     * @return true si el nodo es fuente y false en caso contrario
+     */
+    public boolean esNodoFuente(T node) {    //grado Salida > 0 y grado Entrada == 0
+        boolean flag = false;
+        int i = getNode(node);
+
+        for (int v = 0; v < this.nodos.length; v++) {
+            // si existe al menos una arista desde node hasta X
+            // y si no existe al menos una arista desde X hasta el nodo
+            if (edges[i][v] && !edges[v][i])
+                flag = true;
+        }
+
+        return flag;
+    }
+
+    /**
+     * Metodo para comprobar si un nodo es sumidero
+     * Hacemos uso del método esNodoFuente puesto que ahora si grado Salida == 0 y grado entrada >0
+     * es sumidero
+     *
+     * @param node
+     * @return
+     */
+    public boolean esNodoSumidero(T node) {
+        if (!esNodoFuente(node))
+            return true;
+        else
+            return false;
+
+    }
+
+    /**
+     * Metodo que comprueba si un nodo es aislado
+     * Comprueba que: grado salida = grado entrada = 0
+     *
+     * @param node
+     * @return
+     */
+    public boolean esNodoAislado(T node) {
+        boolean flag = false;
+        int i = getNode(node);
+
+        for (int v = 0; v < this.nodos.length; v++) {
+            // no pueden existir aristas que salgan o entren del nodo
+            if (!edges[i][v] && !edges[v][i])
+                flag = true;
+        }
+
+        return flag;
+    }
+
+    //Inaccesibles de un nodo
+
+    /**
+     * Método que calcula todos los nodos inaccesibles desde un nodo
+     *
+     * @param node, el nodo desde el que parte
+     * @return un vector de nodos inaccesibles
+     */
+    public int[] inaccesiblesDesdeUnNodo(T node) {
+        if ((node == null || getNode(node) == -1) && (pFloyd == null || pFloyd.length == 0)) return null;
+
+        int i = getNode(node);
+        floyd();
+        int[] res = new int[numNodes];
+        if (node == null || i == -1) return null;
+
+        for (int j = 0; j < numNodes; j++) {
+            if (!existEdge(this.nodos[i], this.nodos[j]))
+                res[j] = j;
+
+        }
+
+        return res;
+    }
+
+    /**
+     * Método que calcula todos los accesibles desde un nodo siempre y con grado salida == 0
+     *
+     * @return devuelva un vector de nodos accesibles y con grado de salida igual a 0
+     */
+    public int[] accesiblesDesdeUnNodo(T node) {
+        if ((node == null || getNode(node) == -1) && (pFloyd == null || pFloyd.length == 0)) return null;
+
+        int i = getNode(node);
+        floyd();
+        int[] res = new int[numNodes];
+
+        for (int j = 0; j < numNodes; j++) {
+            if (existEdge(this.nodos[i], this.nodos[j]) && gradoSalida(node) == 0)
+                res[j] = j;
+
+        }
+
+        return res;
+
+    }
+
+    /**
+     * Devuelve la excentricidad del nodo que se le pasa por parámetro
+     * La excentricidad de un nodo es el mayor de los costes mínimos que tienen a ese nodo como destino, desde cualquier otro
+     *
+     * @return Si el nodo no existe devuelve -1
+     */
+    private double excentricidad(T nodo) {
+        int j = getNode(nodo);
+
+        //Comprueba si el nodo existe
+        if (j >= 0 && nodo != null) {
+            //Calcula la matriz A de floyd
+            floyd();
+            double excentricidad = 0.0;
+
+            //Comprueba cual es el peso máximo en la columna del nodo pasado por parámetro
+            for (int i = 0; i < numNodes; i++) {
+                if (aFloyd[i][j] > excentricidad) {
+                    excentricidad = aFloyd[i][j];
+                }
+            }
+
+            return excentricidad;
+        } else {
+            return -1.0;
+        }
+    }
+
+    /**
+     * Metodo que devuelve la excentricidad más alta del grafo,
+     * si hay varios debe devolver el que este en una posición más baja en el vector de nodos
+     *
+     * @return Nodo mas excentrico del grafo
+     */
+    public T getMoreEccentricNode() {
+        if (numNodes == 0) return null; // el grafo esta vacio
+        if (numNodes == 1) return this.nodos[0];
+
+        double max = 0;
+        T node = null;
+
+        for (int i = numNodes - 1; i >= 0; i--) {
+            if (excentricidad(this.nodos[i]) >= max) {
+                System.out.println(i);
+                max = excentricidad(this.nodos[i]);
+                node = this.nodos[i];
+            }
+        }
+
+        return node;
+    }
+
+
+    /**
+     * Método que calcula el grado de salida de un nodo
+     *
+     * @param nodo , el nodo
+     * @return el grado de salida
+     */
+    public int gradoSalida(T nodo) {
+        int counter = 0;
+        if (getNode(nodo) == -1 || nodo == null) return -1;
+
+        for (int i = 0; i < numNodes; i++) {
+            if (existEdge(nodo, this.nodos[i])) {
+                counter += 1;
+            }
+        }
+
+        return counter;
+    }
+
+    /**
+     * Método que calcula el grado de entrada de un nodo
+     *
+     * @param nodo , el nodo
+     * @return el grado de entrada
+     */
+    public int gradoEntrada(T nodo) {
+        int counter = 0;
+        if (getNode(nodo) == -1 || nodo == null) return -1;
+
+        for (int i = 0; i < numNodes; i++) {
+            if (existEdge(this.nodos[i], nodo))
+                counter += 1;
+        }
+
+        return counter;
+    }
+
+    /**
      * Devuelve un String con la informacion del grafo (incluyendo matrices de
      * Floyd)
      */

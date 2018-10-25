@@ -1,10 +1,8 @@
-package algoritmiaTest;
+package algoritmia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import algoritmia.Algorithms;
 
 class AlgorithmsTest {
 

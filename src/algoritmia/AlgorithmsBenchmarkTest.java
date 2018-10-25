@@ -1,6 +1,5 @@
-package algoritmiaTest;
+package algoritmia;
 
-import algoritmia.AlgorithmsBenchmark;
 import org.junit.jupiter.api.Test;
 
 class AlgorithmsBenchmarkTest {

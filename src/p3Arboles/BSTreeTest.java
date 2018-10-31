@@ -16,14 +16,14 @@ public class BSTreeTest<T extends Comparable<T>> {
 
         // Añadimos nodos y comprobamos que se crean
 
-        assertTrue(arbol.addNode(14));
-        assertTrue(arbol.addNode(47));
-        assertTrue(arbol.addNode(4));
-        assertTrue(arbol.addNode(2));
-        assertTrue(arbol.addNode(8));
-        assertTrue(arbol.addNode(34));
-        assertTrue(arbol.addNode(94));
-        assertTrue(arbol.addNode(7));
+        assertTrue(arbol.addNode(14)==0);
+        assertTrue(arbol.addNode(47)==0);
+        assertTrue(arbol.addNode(4)==0);
+        assertTrue(arbol.addNode(2)==0);
+        assertTrue(arbol.addNode(8)==0);
+        assertTrue(arbol.addNode(34)==0);
+        assertTrue(arbol.addNode(94)==0);
+        assertTrue(arbol.addNode(7)==0);
 
         // Nos muestra el arbol con los nodos añadidos
         System.out.println("ARBOL ORIGINAL (tumbado) \n" + arbol.toString());
@@ -31,10 +31,10 @@ public class BSTreeTest<T extends Comparable<T>> {
         // CASOS NEGATIVOS
 
         // Añadimos un nodo repetido
-        assertFalse(arbol.addNode(4));
+        assertTrue(arbol.addNode(4)==-1);
 
         // Añadimos un nodo null
-        assertFalse(arbol.addNode(null));
+        assertTrue(arbol.addNode(null)==-2);
     }
 
     @Test
@@ -44,25 +44,25 @@ public class BSTreeTest<T extends Comparable<T>> {
 
         // Al añadir nodos que existen comprobamos que al buscarlos aparecen
 
-        assertTrue(arbol.addNode(14));
+        assertTrue(arbol.addNode(14)==0);
         assertEquals(14, (int) arbol.searchNode(14));
 
-        assertTrue(arbol.addNode(47));
+        assertTrue(arbol.addNode(47)==0);
         assertEquals(47, (int) arbol.searchNode(47));
 
-        assertTrue(arbol.addNode(4));
+        assertTrue(arbol.addNode(4)==0);
         assertEquals(4, (int) arbol.searchNode(4));
 
-        assertTrue(arbol.addNode(2));
+        assertTrue(arbol.addNode(2)==0);
         assertEquals(2, (int) arbol.searchNode(2));
 
-        assertTrue(arbol.addNode(34));
+        assertTrue(arbol.addNode(34)==0);
         assertEquals(34, (int) arbol.searchNode(34));
 
-        assertTrue(arbol.addNode(94));
+        assertTrue(arbol.addNode(94)==0);
         assertEquals(94, (int) arbol.searchNode(94));
 
-        assertTrue(arbol.addNode(7));
+        assertTrue(arbol.addNode(7)==0);
         assertEquals(7, (int) arbol.searchNode(7));
         // CASOS NEGATIVOS
 
@@ -76,7 +76,7 @@ public class BSTreeTest<T extends Comparable<T>> {
         assertNull(arbol.searchNode(null));
 
         // Borramos un nodo e intentamos buscarlo
-        assertTrue(arbol.removeNode(7));
+        assertTrue(arbol.removeNode(7)==0);
         assertNull(arbol.searchNode(7));
 
     }
@@ -86,34 +86,33 @@ public class BSTreeTest<T extends Comparable<T>> {
 
         // Intentamos borrar con un arbol vacío
 
-        assertFalse(arbol.removeNode(14)); // se lanzaría la excepcion--false
-
+        assertTrue(arbol.removeNode(14)==-2); 
 
         // Añadimos nodos
-        assertTrue(arbol.addNode(14));
+        assertTrue(arbol.addNode(14)==0);
         // Borramos un nodo que no existe
-        assertFalse(arbol.removeNode(78));
+        assertTrue(arbol.removeNode(78)==-1);
 
 
         // borramos el único elemento del arbol
-        assertTrue(arbol.removeNode(14));
+        assertTrue(arbol.removeNode(14)==0);
         assertNull(arbol.searchNode(14));
 
         // Añadimos mas nodos
-        assertTrue(arbol.addNode(14));
-        assertTrue(arbol.addNode(47));
-        assertTrue(arbol.addNode(4));
-        assertTrue(arbol.addNode(2));
-        assertTrue(arbol.addNode(8));
-        assertTrue(arbol.addNode(34));
-        assertTrue(arbol.addNode(94));
-        assertTrue(arbol.addNode(7));
+        assertTrue(arbol.addNode(14)==0);
+        assertTrue(arbol.addNode(47)==0);
+        assertTrue(arbol.addNode(4)==0);
+        assertTrue(arbol.addNode(2)==0);
+        assertTrue(arbol.addNode(8)==0);
+        assertTrue(arbol.addNode(34)==0);
+        assertTrue(arbol.addNode(94)==0);
+        assertTrue(arbol.addNode(7)==0);
 
         // CASOS POSITVOS
 
         // Borramos un nodo que existe por la izquierda de la rama derecha
 
-        assertTrue(arbol.removeNode(34));
+        assertTrue(arbol.removeNode(34)==0);
         assertNull(arbol.searchNode(34));
         System.out
                 .println("Borramos un nodo que existe por la izquierda de la rama derecha (34) \n" + arbol.toString());
@@ -121,7 +120,7 @@ public class BSTreeTest<T extends Comparable<T>> {
 
         // Borramos un nodo que existe por la izquierda de la rama izquierda
 
-        assertTrue(arbol.removeNode(2));
+        assertTrue(arbol.removeNode(2)==0);
         assertNull(arbol.searchNode(2));
         System.out
                 .println("Borramos un nodo que existe por la izquierda de la rama izquierda(2) \n" + arbol.toString());
@@ -129,35 +128,43 @@ public class BSTreeTest<T extends Comparable<T>> {
 
         // Borramos un nodo que existe por la derecha de la rama izquierda
 
-        assertTrue(arbol.removeNode(8));
+        assertTrue(arbol.removeNode(8)==0);
         assertNull(arbol.searchNode(8));
         System.out.println("Borramos un nodo que existe por la derecha de la rama izquierda (8) \n" + arbol.toString());
         arbol.addNode(8);
 
         // Borramos un nodo que existe por la derecha de la rama derecha
 
-        assertTrue(arbol.removeNode(94));
+        assertTrue(arbol.removeNode(94)==0);
         assertNull(arbol.searchNode(94));
         System.out.println("Borramos un nodo que existe por la derecha de la rama derecha (94)  \n" + arbol.toString());
         arbol.addNode(94);
 
         // Borramos un nodo de la rama derecha con dos hijos
 
-        assertTrue(arbol.removeNode(47));
+        assertTrue(arbol.removeNode(47)==0);
         assertNull(arbol.searchNode(47));
         System.out.println("Borramos un nodo que existe por la derecha con dos hijos (47)  \n" + arbol.toString());
         arbol.addNode(47);
 
         // Borramos un nodo de la rama izquierda con dos hijos
 
-        assertTrue(arbol.removeNode(4));
+        assertTrue(arbol.removeNode(4)==0);
         assertNull(arbol.searchNode(4));
         System.out.println("Borramos un nodo que existe por la izquierda con dos hijos (4)  \n" + arbol.toString());
 
         // Borramos un nodo que no existe
 
-        assertFalse(arbol.removeNode(4));
+        assertTrue(arbol.removeNode(4)==-1);
         assertNull(arbol.searchNode(4));
+    }
+    
+    @Test
+    public void toStringParaExamenTest() {
+    	 assertTrue(arbol.addNode(1)==0);
+    	 assertTrue(arbol.addNode(2)==0);
+         assertTrue(arbol.addNode(3)==0);
+    	System.out.println(arbol.preOrder());
     }
 
     @Test
@@ -168,7 +175,7 @@ public class BSTreeTest<T extends Comparable<T>> {
         assertEquals(recorrido, arbol.preOrder());
 
         // Añadimos un nodo al árbol
-        assertTrue(arbol.addNode(14));
+        assertTrue(arbol.addNode(14)==0);
 
         // Probamos el recorrido con un arbol sin hijos
         recorrido = ("14	");
@@ -176,13 +183,13 @@ public class BSTreeTest<T extends Comparable<T>> {
 
         // Añadimos los nodos al árbol
 
-        assertTrue(arbol.addNode(47));
-        assertTrue(arbol.addNode(4));
-        assertTrue(arbol.addNode(2));
-        assertTrue(arbol.addNode(8));
-        assertTrue(arbol.addNode(34));
-        assertTrue(arbol.addNode(94));
-        assertTrue(arbol.addNode(7));
+        assertTrue(arbol.addNode(47)==0);
+        assertTrue(arbol.addNode(4)==0);
+        assertTrue(arbol.addNode(2)==0);
+        assertTrue(arbol.addNode(8)==0);
+        assertTrue(arbol.addNode(34)==0);
+        assertTrue(arbol.addNode(94)==0);
+        assertTrue(arbol.addNode(7)==0);
 
         // Realizamos el recorrido preOrden y comprobamos
         recorrido = ("14	4	2	8	7	47	34	94	");
@@ -198,7 +205,7 @@ public class BSTreeTest<T extends Comparable<T>> {
         assertEquals(recorrido, arbol.inOrder());
 
         // Añadimos un nodo al árbol
-        assertTrue(arbol.addNode(14));
+        assertTrue(arbol.addNode(14)==0);
 
         // Probamos el recorrido con un arbol sin hijos
         recorrido = ("14	");
@@ -206,13 +213,13 @@ public class BSTreeTest<T extends Comparable<T>> {
 
         // Añadimos mas hijos al arbol
 
-        assertTrue(arbol.addNode(47));
-        assertTrue(arbol.addNode(4));
-        assertTrue(arbol.addNode(2));
-        assertTrue(arbol.addNode(8));
-        assertTrue(arbol.addNode(34));
-        assertTrue(arbol.addNode(94));
-        assertTrue(arbol.addNode(7));
+        assertTrue(arbol.addNode(47)==0);
+        assertTrue(arbol.addNode(4)==0);
+        assertTrue(arbol.addNode(2)==0);
+        assertTrue(arbol.addNode(8)==0);
+        assertTrue(arbol.addNode(34)==0);
+        assertTrue(arbol.addNode(94)==0);
+        assertTrue(arbol.addNode(7)==0);
 
         // Realizamos el recorrido inOrden y comprobamos
         recorrido = ("2	4	7	8	14	34	47	94	");
@@ -228,7 +235,7 @@ public class BSTreeTest<T extends Comparable<T>> {
         assertEquals(recorrido, arbol.postOrder());
 
         // Añadimos un nodo al árbol
-        assertTrue(arbol.addNode(14));
+        assertTrue(arbol.addNode(14)==0);
 
         // Probamos el recorrido con un arbol sin hijos
         recorrido = ("14	");
@@ -236,13 +243,13 @@ public class BSTreeTest<T extends Comparable<T>> {
 
         // Añadimos los nodos al árbol
 
-        assertTrue(arbol.addNode(47));
-        assertTrue(arbol.addNode(4));
-        assertTrue(arbol.addNode(2));
-        assertTrue(arbol.addNode(8));
-        assertTrue(arbol.addNode(34));
-        assertTrue(arbol.addNode(94));
-        assertTrue(arbol.addNode(7));
+        assertTrue(arbol.addNode(47)==0);
+        assertTrue(arbol.addNode(4)==0);
+        assertTrue(arbol.addNode(2)==0);
+        assertTrue(arbol.addNode(8)==0);
+        assertTrue(arbol.addNode(34)==0);
+        assertTrue(arbol.addNode(94)==0);
+        assertTrue(arbol.addNode(7)==0);
 
         System.out.println("RECORRIDO  POSTORDEN " + arbol.postOrder());
 

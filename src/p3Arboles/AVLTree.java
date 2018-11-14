@@ -36,20 +36,29 @@ public class AVLTree<T extends Comparable<T>> extends BSTree<T> {
 	public int removeNode(T info) {
 
 		if (info == null)
-			return -1;
+			return -2;
 		if (root == null)
 			return -2;
 		if (super.searchNode(info) == null)
 			return -1;
 
 		try {
-			this.root = (remove((AVLNode<T>) root, info));
+			this.root = (removeRec((AVLNode<T>) root, info));
 			return 0;
 		} catch (Exception e) {
 			return -2;
 		}
 	}
 
+	/**
+	 * Metodo recursivo para añadir el nodo donde corresponda.
+	 * 
+	 * @param thisRoot
+	 *            Raiz del subarbol que estamos comprobando
+	 * @param node
+	 *            Nodo que se quiere añadir
+	 * @return Nuevo arbol es estado correcto (balanceado)
+	 */
 	private AVLNode<T> addRec(AVLNode<T> thisRoot, T node) {
 
 		if (thisRoot == null) {
@@ -67,6 +76,9 @@ public class AVLTree<T extends Comparable<T>> extends BSTree<T> {
 	}
 
 	/**
+	 * Metodo que comprueba si un subarbol esta balanceado y en el caso de que no lo
+	 * este balancea su subarbol.
+	 * 
 	 * @param nodo
 	 *            el arbol que se quiere actualizar Height, BF y balancear si fuese
 	 *            necesario
@@ -79,26 +91,24 @@ public class AVLTree<T extends Comparable<T>> extends BSTree<T> {
 		if (nodo.getBF() == -2) {
 			if (nodo.getLeft().getBF() == -1) {
 				nodo = singleLeftRotation(nodo);
-				System.out.println("SingleLeftRotation [-2][-1]");
+				System.out.println("Rotacion Simple Izquierda [-2][-1]");
 			} else if (nodo.getLeft().getBF() == 0) {
 				nodo = singleLeftRotation(nodo);
-				System.out.println("singleLeftRotation [-2][0]");
+				System.out.println("Rotacion Simple Izquierda [-2][0]");
 			} else {
 				nodo = doubleLeftRotation(nodo);
-				System.out.println("DoubleLeftRotation [-2][1]");
+				System.out.println("Rotacion Doble Izquierda [-2][1]");
 			}
-		}
-
-		if (nodo.getBF() == 2) {
+		} else if (nodo.getBF() == 2) {
 			if (nodo.getRight().getBF() == 1) {
 				nodo = singleRightRotation(nodo);
-				System.out.println("singleRightRotation [2][1]");
+				System.out.println("Rotacion Simple Derecha [2][1]");
 			} else if (nodo.getRight().getBF() == 0) {
 				nodo = singleRightRotation(nodo);
-				System.out.println("singleRightRotation [2][0]");
+				System.out.println("Rotacion Simple Derecha [2][0]");
 			} else {
 				nodo = doubleRightRotation(nodo);
-				System.out.println("doubleRightRotation[2][-1]");
+				System.out.println("Rotacion Doble Derecha [2][-1]");
 			}
 		}
 
@@ -157,6 +167,8 @@ public class AVLTree<T extends Comparable<T>> extends BSTree<T> {
 	}
 
 	/**
+	 * Metodo de rotacion doble a derecha
+	 * 
 	 * @param nodo
 	 *            la ra�z del �rbol a balancear con rotaci�n doble
 	 * @return la ra�z del nuevo �rbol que ha cambiado
@@ -166,15 +178,21 @@ public class AVLTree<T extends Comparable<T>> extends BSTree<T> {
 		return singleRightRotation(nodo);
 	}
 
-	private AVLNode<T> remove(AVLNode<T> theRoot, T node) {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see BSTree#removeNode(java.lang.Comparable) Redefinición para incluir
+	 * características AVL
+	 */
+	private AVLNode<T> removeRec(AVLNode<T> theRoot, T node) {
 		if (theRoot == null)
 			throw new RuntimeException("El elemento no puede ser null");
 
 		else if (node.compareTo(theRoot.getInfo()) < 0)
-			theRoot.setLeft(remove(theRoot.getLeft(), node));
+			theRoot.setLeft(removeRec(theRoot.getLeft(), node));
 
 		else if (node.compareTo(theRoot.getInfo()) > 0)
-			theRoot.setRight(remove(theRoot.getRight(), node));
+			theRoot.setRight(removeRec(theRoot.getRight(), node));
 
 		else if (theRoot.getLeft() == null)
 
@@ -184,11 +202,20 @@ public class AVLTree<T extends Comparable<T>> extends BSTree<T> {
 
 		else {
 			theRoot.setInfo(super.getMax(theRoot.getLeft()));
-			theRoot.setLeft(remove(theRoot.getLeft(), theRoot.getInfo()));
+			theRoot.setLeft(removeRec(theRoot.getLeft(), theRoot.getInfo()));
 		}
 
 		return (updateAndBalanceIfNecesary(theRoot));
 
+	}
+
+	/**
+	 * Metodo que devulve el AVLTree
+	 * 
+	 * @return root del arbol.
+	 */
+	public AVLNode<T> getRoot() {
+		return (AVLNode<T>) root;
 	}
 
 }

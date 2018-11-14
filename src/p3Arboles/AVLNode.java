@@ -10,13 +10,13 @@ public class AVLNode<T extends Comparable<T>> extends BSTNode<T> {
 	/**
 	 * Para almacenar la altura del arbol
 	 */
-	private int height;
+	protected int height;
 
 	/**
 	 * Para almacenar al Factor de balance. Puede no existir y calcularse cada vez a
 	 * partir de la altura de los hijos.
 	 */
-	private int balanceFactor;
+	protected int balanceFactor;
 
 	/**
 	 * Llama al padre y a�ade la informacion propia

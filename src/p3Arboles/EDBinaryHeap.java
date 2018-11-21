@@ -18,13 +18,11 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 	@Override
 	public int add(T info) {
 
-		if (info == null)
-			return -2; // Intentamos meter un null
-
-		else if (numElementos > elementos.length - 1)
-			return -1; // si estamos intentando meter cuando no hay sitio
-
-		else {
+		if (info == null) {
+			return -2;
+		} else if (numElementos > elementos.length - 1) {
+			return -1;
+		} else {
 			elementos[numElementos] = info; // si hay sitio ponemos el elemento
 			filtradoAscendente(numElementos); // pero obviamente hay que reordenarlo
 			numElementos++; // aumentamos el numero de elementos
@@ -34,7 +32,7 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 	}
 
 	@Override
-	public T poll() {
+	public T getTop() {
 		if (numElementos <= 0)
 			return null;
 
@@ -42,18 +40,6 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 		remove(primero);
 		filtradoDescendente(0);
 		return primero;
-
-	}
-
-	private int getPos(T info) {
-		if (info == null)
-			return -1;
-		for (int i = 0; i < numElementos; i++) {
-			if (elementos[i].equals(info))
-				return i;
-		}
-
-		return -1;
 	}
 
 	@Override
@@ -68,8 +54,26 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 		numElementos--;
 		filtradoDescendente(posicion);
 		filtradoAscendente(posicion);
-
 		return 0;
+	}
+
+	/**
+	 * Metodo que da la posicion en la array de un elemento dado.
+	 * 
+	 * @param info
+	 *            Elemento del que se quiere conocer la posicion.
+	 * @return La posicion del elemento a buscar o -1 si no se a encontrado el
+	 *         elemento.
+	 */
+	private int getPos(T info) {
+		if (info == null)
+			return -1;
+		for (int i = 0; i < numElementos; i++) {
+			if (elementos[i].equals(info))
+				return i;
+		}
+
+		return -1;
 	}
 
 	@Override
@@ -80,9 +84,6 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 		return false;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	public void clear() {
 		numElementos = 0;
@@ -123,7 +124,11 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 	}
 
 	/**
-	 * Realiza una filtrado ascendente de minimos en el monticulo
+	 * Realiza una filtrado ascendente de minimos en el monticulo, para ello: -
+	 * Obtendremos la direccion del padre. - Guardaremos la referencia al padre. -
+	 * Asignaremos en la posicion del padre la del hijo. - Asignaremos en la
+	 * posicion del hijo la del padre. - Volveremos a realizar todo lo anterior
+	 * hasta que la prioridad sea igual o menor.
 	 * 
 	 * @param p
 	 *            el indice del elemento a filtrar

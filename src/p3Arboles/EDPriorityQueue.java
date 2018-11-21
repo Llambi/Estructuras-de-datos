@@ -14,11 +14,11 @@ public interface EDPriorityQueue<T extends Comparable<T>> {
 	public int add(T elemento);
 
 	/**
-	 * Devuelve y elimina el elemento con m�s prioridad
+	 * Devuelve y elimina el elemento con más prioridad
 	 * 
 	 * @return El elemento con mayor prioridad, o null si no hay elementos
 	 */
-	public T poll();
+	public T getTop();
 
 	/**
 	 * Borra un elemento de la cola
@@ -32,7 +32,7 @@ public interface EDPriorityQueue<T extends Comparable<T>> {
 	public int remove(T elemento);
 
 	/**
-	 * @return true si no hay ning�n elemento
+	 * @return true si no hay ningun elemento
 	 */
 	public boolean isEmpty();
 

@@ -83,11 +83,11 @@ public class EDBinaryHeapTest {
 		System.out.println(monticulo.toString());
 
 		// poll elementos de mayor prioridad
-		assertTrue(1 == monticulo.poll());
+		assertTrue(1 == monticulo.getTop());
 		System.out.println("sacamos el elemento con mayor prioridad (1) \n " + monticulo.toString());
-		assertTrue(2 == monticulo.poll());
+		assertTrue(2 == monticulo.getTop());
 		System.out.println("sacamos el elemento con mayor prioridad (2) \n " + monticulo.toString());
-		assertTrue(3 == monticulo.poll());
+		assertTrue(3 == monticulo.getTop());
 		System.out.println("sacamos el elemento con mayor prioridad (3) \n " + monticulo.toString());
 
 		// add repetido y poll
@@ -95,20 +95,20 @@ public class EDBinaryHeapTest {
 		assertEquals(0, monticulo.add(4));
 		System.out.println("a�adimos un elemento repetido y llamamos a poll \n " + monticulo.toString());
 
-		assertTrue(4 == monticulo.poll());
+		assertTrue(4 == monticulo.getTop());
 		System.out.println("sacamos el elemento con mayor prioridad con repetidos(4) \n " + monticulo.toString());
 
-		assertTrue(4 == monticulo.poll());
+		assertTrue(4 == monticulo.getTop());
 		System.out.println("sacamos el elemento con mayor prioridad (4) \n " + monticulo.toString());
 
-		assertTrue(5 == monticulo.poll());
+		assertTrue(5 == monticulo.getTop());
 		System.out.println("sacamos el elemento con mayor prioridad (5) \n " + monticulo.toString());
 
-		assertTrue(6 == monticulo.poll());
+		assertTrue(6 == monticulo.getTop());
 		System.out.println("sacamos el ultimo elemento y queda un monticulo vacio (6) \n " + monticulo.toString());
 
 		// no quedan mas elementos
-		assertNull(monticulo.poll());
+		assertNull(monticulo.getTop());
 	}
 
 	@Test
@@ -149,7 +149,7 @@ public class EDBinaryHeapTest {
 		// fill heap
 		assertEquals(0, monticulo.add(1));
 		// no borrar monticulo vacio
-		assertTrue(1 == monticulo.poll());
+		assertTrue(1 == monticulo.getTop());
 		assertEquals(-1, monticulo.remove(1));
 
 		// fill heap

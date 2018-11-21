@@ -10,7 +10,7 @@ public class EDBinaryHeapTest {
 
 	@Test
 	public void addTest() {
-		System.out.println("--------------------------------------\n TEST ADD ");
+		System.out.println("--------------------------------------\n TEST ADD\n");
 
 		// CASOS POSITIVOS
 		// fill heap
@@ -42,7 +42,7 @@ public class EDBinaryHeapTest {
 	@Test
 	public void filtradosTest() {
 
-		System.out.println("--------------------------------------\n TEST FILTRADOS ");
+		System.out.println("--------------------------------------\n TEST FILTRADOS\n");
 
 		// fill heap
 		assertEquals(0, monticulo.add(2));
@@ -69,9 +69,9 @@ public class EDBinaryHeapTest {
 	}
 
 	@Test
-	public void pollTest() {
+	public void getTopTest() {
 
-		System.out.println("--------------------------------------\n TEST POLL ");
+		System.out.println("--------------------------------------\n TEST GET_TOP\n");
 
 		// fill heap
 		assertEquals(0, monticulo.add(1));
@@ -124,7 +124,7 @@ public class EDBinaryHeapTest {
 
 	@Test
 	public void clearTest() {
-		System.out.println("--------------------------------------\n TEST CLEAR ");
+		System.out.println("--------------------------------------\n TEST CLEAR\n");
 
 		// fill heap
 		assertEquals(0, monticulo.add(2));
@@ -144,7 +144,7 @@ public class EDBinaryHeapTest {
 	@Test
 	public void removeTest() {
 
-		System.out.println("--------------------------------------\n TEST REMOVE ");
+		System.out.println("--------------------------------------\n TEST REMOVE\n");
 
 		// fill heap
 		assertEquals(0, monticulo.add(1));

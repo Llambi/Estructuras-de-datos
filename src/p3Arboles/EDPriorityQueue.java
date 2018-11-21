@@ -2,10 +2,15 @@ package p3Arboles;
 
 /**
  * Interfaz para una cola de prioridad.
+ * 
+ * @author Nestor
+ * @version 2018-19
  */
 public interface EDPriorityQueue<T extends Comparable<T>> {
 
 	/**
+	 * Metodo para añadir un elemento dado
+	 * 
 	 * @param elemento
 	 *            Elemento que se quiere insertar en la cola
 	 * @return 0 si consigue insertarlo, negativo en caso contrario ((-1 si no cabe,
@@ -42,6 +47,9 @@ public interface EDPriorityQueue<T extends Comparable<T>> {
 	public void clear();
 
 	/**
+	 * Devuelve una cadena con la informacion de los elementos que contiene el
+	 * monticulo en forma visible (recomendado inorden-derecha-izquierda tabulado)
+	 *
 	 * @return Un string con la cola de alguna forma visible
 	 */
 	public String toString();

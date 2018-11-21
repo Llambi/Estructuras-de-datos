@@ -47,7 +47,8 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 			return null;
 
 		T primero = elementos[0];
-		remove(primero);
+		elementos[0] = elementos[numElementos - 1];
+		numElementos--;
 		filtradoDescendente(0);
 		return primero;
 	}
@@ -114,9 +115,9 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 		numElementos = 0;
 	}
 
-	/**
-	 * Devuelve una cadena con la informacion de los elementos que contiene el
-	 * monticulo en forma visible (recomendado inorden-derecha-izquierda tabulado)
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 		StringBuilder cadena = new StringBuilder();

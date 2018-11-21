@@ -13,7 +13,7 @@ public class EDBinaryHeapTest {
 		System.out.println("--------------------------------------\n TEST ADD ");
 
 		// CASOS POSITIVOS
-		// a�adimos varios elementos hasta completar el monticulo
+		// fill heap
 		assertEquals(0, monticulo.add(13));
 		assertEquals(0, monticulo.add(21));
 		assertEquals(0, monticulo.add(16));
@@ -24,16 +24,16 @@ public class EDBinaryHeapTest {
 		assertEquals(0, monticulo.add(65));
 		System.out.println(monticulo.toString());
 
-		// a�adimos un elemento de mayor prioridad que el de la raiz y comprobamos que
+		// add mayor prioridad que raiz
 		// toma su lugar
 		assertEquals(0, monticulo.add(10));
 		System.out.println(monticulo.toString());
 
-		// a�adimos un elemento repetido
+		// add repetido
 		assertEquals(0, monticulo.add(10));
 		System.out.println(monticulo.toString());
 
-		// intentamos a�adir cuando no hay m�s espacio y cuando el parametro es null
+		// add ya lleno y null
 		assertEquals(-1, monticulo.add(10));
 		assertEquals(-2, monticulo.add(null));
 
@@ -44,7 +44,7 @@ public class EDBinaryHeapTest {
 
 		System.out.println("--------------------------------------\n TEST FILTRADOS ");
 
-		// a�adimos varios elementos
+		// fill heap
 		assertEquals(0, monticulo.add(2));
 		assertEquals(0, monticulo.add(3));
 		assertEquals(0, monticulo.add(4));
@@ -54,15 +54,15 @@ public class EDBinaryHeapTest {
 
 		// Casos de filtrados
 
-		// ADD- filtrado ascendente
+		// ADD: filtrado ascendente
 		assertEquals(0, monticulo.add(1));
 		System.out.println("a�adimos 1 para que se produzca filtrado ascendente \n " + monticulo.toString());
 
-		// REMOVE - filtrado descendente
+		// REMOVE: filtrado descendente
 		assertEquals(0, monticulo.remove(3));
 		System.out.println("borramos 3 para que se produzca un filtrado descendente \n " + monticulo.toString());
 
-		// REMOVE - filtrado ascendente
+		// REMOVE: filtrado ascendente
 		assertEquals(0, monticulo.remove(1));
 		System.out.println("borramos 1 para que se produzca un filtrado ascendente \n " + monticulo.toString());
 
@@ -73,7 +73,7 @@ public class EDBinaryHeapTest {
 
 		System.out.println("--------------------------------------\n TEST POLL ");
 
-		// a�adimos varios elementos
+		// fill heap
 		assertEquals(0, monticulo.add(1));
 		assertEquals(0, monticulo.add(2));
 		assertEquals(0, monticulo.add(3));
@@ -82,7 +82,7 @@ public class EDBinaryHeapTest {
 		assertEquals(0, monticulo.add(6));
 		System.out.println(monticulo.toString());
 
-		// Vamos sacando los elementos de mayor prioridad del monticulo
+		// poll elementos de mayor prioridad
 		assertTrue(1 == monticulo.poll());
 		System.out.println("sacamos el elemento con mayor prioridad (1) \n " + monticulo.toString());
 		assertTrue(2 == monticulo.poll());
@@ -90,7 +90,7 @@ public class EDBinaryHeapTest {
 		assertTrue(3 == monticulo.poll());
 		System.out.println("sacamos el elemento con mayor prioridad (3) \n " + monticulo.toString());
 
-		// a�adimos un elemento repetido y llamamos a poll
+		// add repetido y poll
 
 		assertEquals(0, monticulo.add(4));
 		System.out.println("a�adimos un elemento repetido y llamamos a poll \n " + monticulo.toString());
@@ -126,7 +126,7 @@ public class EDBinaryHeapTest {
 	public void clearTest() {
 		System.out.println("--------------------------------------\n TEST CLEAR ");
 
-		// a�adimos varios elementos
+		// fill heap
 		assertEquals(0, monticulo.add(2));
 		assertEquals(0, monticulo.add(4));
 		assertEquals(0, monticulo.add(3));
@@ -134,7 +134,7 @@ public class EDBinaryHeapTest {
 		assertEquals(0, monticulo.add(6));
 		assertEquals(0, monticulo.add(4));
 
-		// comprobamos que despues de borrar el monticulo este vacio
+		// test de clear
 		monticulo.clear();
 		assertEquals(true, monticulo.isEmpty());
 		System.out.println(monticulo.toString());
@@ -146,13 +146,13 @@ public class EDBinaryHeapTest {
 
 		System.out.println("--------------------------------------\n TEST REMOVE ");
 
-		// a�adimos varios elementos
+		// fill heap
 		assertEquals(0, monticulo.add(1));
-		// comprobamos que no podemos borrar un monticulo vac�o
+		// no borrar monticulo vacio
 		assertTrue(1 == monticulo.poll());
 		assertEquals(-1, monticulo.remove(1));
 
-		// seguimos a�adiendo
+		// fill heap
 		assertEquals(0, monticulo.add(2));
 		assertEquals(0, monticulo.add(4));
 		assertEquals(0, monticulo.add(3));
@@ -162,15 +162,14 @@ public class EDBinaryHeapTest {
 
 		System.out.println(monticulo.toString());
 
-		// borramos un elemento que existe
+		// borrar existente
 		assertEquals(0, monticulo.remove(2));
 		System.out.println("borramos un elemento que existe (2) \n" + monticulo.toString());
-		// borramos un elemento que no existe
+		// borrar inexistente
 		assertEquals(-1, monticulo.remove(10));
-		// borramos con un parametro null
+		// borrar null
 		assertEquals(-2, monticulo.remove(null));
-		// borramos un elemento repetido ( deber�a borrarse el que encuentra primero en
-		// el array)
+		// borrar repetido ( el primero en la array )
 		assertEquals(0, monticulo.remove(4));
 		System.out.println("borramos un elemento repetido \n" + monticulo.toString());
 

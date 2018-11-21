@@ -15,6 +15,11 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see p3Arboles.EDPriorityQueue#add(java.lang.Comparable)
+	 */
 	@Override
 	public int add(T info) {
 
@@ -31,6 +36,11 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see p3Arboles.EDPriorityQueue#getTop()
+	 */
 	@Override
 	public T getTop() {
 		if (numElementos <= 0)
@@ -42,6 +52,11 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 		return primero;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see p3Arboles.EDPriorityQueue#remove(java.lang.Comparable)
+	 */
 	@Override
 	public int remove(T info) {
 		if (info == null)
@@ -76,6 +91,11 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 		return -1;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see p3Arboles.EDPriorityQueue#isEmpty()
+	 */
 	@Override
 	public boolean isEmpty() {
 		if (numElementos == 0) {
@@ -84,6 +104,11 @@ public class EDBinaryHeap<T extends Comparable<T>> implements EDPriorityQueue<T>
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see p3Arboles.EDPriorityQueue#clear()
+	 */
 	@Override
 	public void clear() {
 		numElementos = 0;

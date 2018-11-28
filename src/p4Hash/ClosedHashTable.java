@@ -126,7 +126,7 @@ public class ClosedHashTable<T> extends AbstractHash<T> {
 			associativeArray[posicion].setInfo(elem);
 			numElems++;
 
-			reDispersion();
+			// reDispersion();
 
 			return 0;
 		}
@@ -141,7 +141,7 @@ public class ClosedHashTable<T> extends AbstractHash<T> {
 			int iter = 1;
 
 			int con = 0;
-			while (posicion >= 0 && con <= getSize() && associativeArray[posicion].getStatus() != HashNode.VACIO) {
+			while (con <= getSize() && associativeArray[posicion].getStatus() != HashNode.VACIO) {
 				if (associativeArray[posicion].getStatus() == HashNode.LLENO) {
 					if (associativeArray[posicion].getInfo().equals(elem)) {
 						return associativeArray[posicion].getInfo();
@@ -158,10 +158,8 @@ public class ClosedHashTable<T> extends AbstractHash<T> {
 				iter++;
 				con++;
 			}
-
 			return null;
 		}
-
 		return null;
 
 	}
@@ -171,20 +169,23 @@ public class ClosedHashTable<T> extends AbstractHash<T> {
 
 		if (elem == null)
 			return -2;
+		if (this.exploracion == CUADRATICA && getLF() < this.fcDOWN) {
+			return -1;
+		}
 
 		else if (find(elem) != null) {
 			int posicion = fHash(elem);
 			int iter = 0;
 
-			while (iter < getSize() && associativeArray[posicion] != null) {
+			while (posicion >= 0 && associativeArray[posicion] != null) {
 				if (associativeArray[posicion].getStatus() == HashNode.LLENO) {
 					if (associativeArray[posicion].getInfo().equals(elem)) {
 						associativeArray[posicion].remove();
 						numElems--;
 
 						if (numElems != 0)
-							inverseReDispersion();
-						return 0;
+							// inverseReDispersion();
+							return 0;
 					}
 				}
 

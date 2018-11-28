@@ -1,17 +1,5 @@
 package p4Hash;
 
-/**
- * 
- * @author Nestor
- * 
- * @version 2018-19
- * 
- * 
- * 
- * @param <T>
- * 
- */
-
 public class HashNode<T> {
 
 	private T info;

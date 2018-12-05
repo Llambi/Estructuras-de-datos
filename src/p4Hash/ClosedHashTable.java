@@ -38,8 +38,8 @@ public class ClosedHashTable<T> extends AbstractHash<T> {
 		for (int i = 0; i < hashSize; i++) {
 			associativeArray[i] = new HashNode<T>();
 		}
-		this.fcUP = 0.5;
-		this.fcDOWN = 0.16;
+		this.fcUP = 1;
+		this.fcDOWN = 0;
 		this.exploracion = expl;
 		this.numElems = 0;
 	}
@@ -82,12 +82,10 @@ public class ClosedHashTable<T> extends AbstractHash<T> {
 
 		if (exploracion == LINEAL) {
 			result = (posicion + iter) % getSize();
-		}
-
-		else if (exploracion == DOBLEHASH) {
+		} else if (exploracion == DOBLEHASH) {
 			int r = previousPrimeNumber(posicion) - (posicion % getSize());
 			result = (posicion + iter * r) % getSize();
-		} else
+		} else // exploracion == CUADRATIC
 			result = (posicion + iter * iter) % getSize();
 
 		return result;
@@ -126,7 +124,7 @@ public class ClosedHashTable<T> extends AbstractHash<T> {
 			associativeArray[posicion].setInfo(elem);
 			numElems++;
 
-			// reDispersion();
+			reDispersion();
 
 			return 0;
 		}
@@ -184,8 +182,8 @@ public class ClosedHashTable<T> extends AbstractHash<T> {
 						numElems--;
 
 						if (numElems != 0)
-							// inverseReDispersion();
-							return 0;
+							inverseReDispersion();
+						return 0;
 					}
 				}
 

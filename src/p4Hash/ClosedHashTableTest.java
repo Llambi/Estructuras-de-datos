@@ -7,10 +7,10 @@ import org.junit.Test;
 public class ClosedHashTableTest {
 
 	@Test
-	public void testAdd() {
+	public void testAddSinRedispersion() {
 
 		// LINEAR
-		// ClosedHashTable<Integer> tabla = new ClosedHashTable<>(3, 0.5, 0.16, 0);
+		// Prueba sin redispersion
 		ClosedHashTable<Integer> tabla = new ClosedHashTable<>(3, ClosedHashTable.LINEAL);
 		assertEquals(3, tabla.getSize());
 		assertEquals(0, tabla.getNumOfElems());
@@ -34,15 +34,11 @@ public class ClosedHashTableTest {
 		System.out.println(tabla.toString());
 
 		assertEquals(0, tabla.add(28));
-		// assertEquals(-1, tabla.add(28));
 		assertEquals(4, tabla.getNumOfElems());
-		// assertEquals(3, tabla.getNumOfElems());
-		// assertEquals(17, tabla.getSize());
 		assertEquals(7, tabla.getSize());
 		System.out.println(tabla.toString());
 
 		// CUADRATICA
-		// ClosedHashTable<Integer> tabla2 = new ClosedHashTable<>(7, 0.5, 0.16, 1);
 		ClosedHashTable<Integer> tabla2 = new ClosedHashTable<>(7, ClosedHashTable.CUADRATICA);
 		assertEquals(7, tabla2.getSize());
 		assertEquals(0, tabla2.getNumOfElems());
@@ -65,16 +61,73 @@ public class ClosedHashTableTest {
 
 		assertEquals(0, tabla2.add(28));
 		assertEquals(4, tabla2.getNumOfElems());
-		// assertEquals(17, tabla2.getSize());
 		assertEquals(7, tabla2.getSize());
 		System.out.println(tabla2.toString());
 
 		assertEquals(-2, tabla2.add(null)); // a�adir un null
-		// assertEquals(-1, tabla2.add(999)); // añadir un numero para el que no se
-		// encuentre pos
 		assertEquals(0, tabla2.add(999));
-		// assertEquals(17, tabla2.getSize());
 		assertEquals(7, tabla2.getSize());
+		System.out.println(tabla2.toString());
+	}
+
+	@Test
+	public void testAddConRedispersion() {
+
+		// LINEAR
+		ClosedHashTable<Integer> tabla = new ClosedHashTable<>(3, 0.5, 0.16, 0);
+		assertEquals(3, tabla.getSize());
+		assertEquals(0, tabla.getNumOfElems());
+		System.out.println(tabla.toString());
+
+		assertEquals(0, tabla.add(7));
+		assertEquals(1, tabla.getNumOfElems());
+		assertEquals(3, tabla.getSize());
+		System.out.println(tabla.toString());
+
+		assertEquals(0, tabla.add(14)); // redispersion
+		assertEquals(2, tabla.getNumOfElems());
+		assertEquals(7, tabla.getSize());
+		System.out.println(tabla.toString());
+
+		assertEquals(0, tabla.add(21));
+		assertEquals(3, tabla.getNumOfElems());
+		assertEquals(7, tabla.getSize());
+		System.out.println(tabla.toString());
+
+		assertEquals(0, tabla.add(28));
+		assertEquals(4, tabla.getNumOfElems());
+		 assertEquals(17, tabla.getSize());
+		System.out.println(tabla.toString());
+
+		// CUADRATICA
+		 ClosedHashTable<Integer> tabla2 = new ClosedHashTable<>(7, 0.5, 0.16, 1);
+		assertEquals(7, tabla2.getSize());
+		assertEquals(0, tabla2.getNumOfElems());
+
+		// redispersion
+		assertEquals(0, tabla2.add(7));
+		assertEquals(1, tabla2.getNumOfElems());
+		assertEquals(7, tabla2.getSize());
+		System.out.println(tabla2.toString());
+
+		assertEquals(0, tabla2.add(14));
+		assertEquals(2, tabla2.getNumOfElems());
+		assertEquals(7, tabla2.getSize());
+		System.out.println(tabla2.toString());
+
+		assertEquals(0, tabla2.add(21));
+		assertEquals(3, tabla2.getNumOfElems());
+		assertEquals(7, tabla2.getSize());
+		System.out.println(tabla2.toString());
+
+		assertEquals(0, tabla2.add(28));
+		assertEquals(4, tabla2.getNumOfElems());
+		 assertEquals(17, tabla2.getSize());
+		System.out.println(tabla2.toString());
+
+		assertEquals(-2, tabla2.add(null)); // a�adir un null
+		assertEquals(0, tabla2.add(999));
+		 assertEquals(17, tabla2.getSize());
 		System.out.println(tabla2.toString());
 
 	}

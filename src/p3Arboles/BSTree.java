@@ -16,6 +16,34 @@ public class BSTree<T extends Comparable<T>> {
 	}
 
 	/**
+	 * @return La altura del arbol teniendo en cuenta que un arbol sin nodos tiene
+	 *         altura 0
+	 */
+	public int getHeight() {
+		if(root==null){
+	        return 0;
+	    }
+	    else{
+	        return findHeight(root);
+	    }
+	}
+
+	private int findHeight(BSTNode<T> aNode){
+	    int heightLeft = 0;
+	    int heightRight = 0;
+	    if(aNode.left!=null)
+	        heightLeft = findHeight(aNode.left);
+	    if(aNode.right!=null)
+	        heightRight = findHeight(aNode.right);
+	    if(heightLeft > heightRight){
+	        return heightLeft+1;
+	    }
+	    else{
+	        return heightRight+1;
+	    }
+	}
+	
+	/**
 	 * Método que añade un nodo al árbol
 	 *
 	 * @param node

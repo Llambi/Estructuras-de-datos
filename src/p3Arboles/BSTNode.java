@@ -7,7 +7,7 @@ package p3Arboles;
  */
 public class BSTNode<T extends Comparable<T>> {
     private T info;
-    private BSTNode<T> left;
+    pack BSTNode<T> left;
     private BSTNode<T> right;
 
     /**

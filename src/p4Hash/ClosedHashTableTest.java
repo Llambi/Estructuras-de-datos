@@ -6,6 +6,26 @@ import org.junit.Test;
 
 public class ClosedHashTableTest {
 
+    	@Test
+    	public void testTarea() {
+    	ClosedHashTable<Integer> tabla = new ClosedHashTable<>(5,0.75,0.16,ClosedHashTable.CUADRATICA);
+    		tabla.add(20);
+    		tabla.add(40);
+    		tabla.add(12);
+    		tabla.add(4);
+    		tabla.add(11);
+    		tabla.add(22);
+    		tabla.add(44);
+    		tabla.add(34);
+    		
+    		tabla.remove(4);
+    		tabla.remove(34);
+    		tabla.remove(44);
+    		tabla.remove(20);
+    		tabla.remove(22);
+    		System.out.println(tabla.toString());
+    	}
+    
 	@Test
 	public void testAddSinRedispersion() {
 

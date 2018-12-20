@@ -15,39 +15,68 @@ public class BSTree<T extends Comparable<T>> {
 		this.root = nodo;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof BSTree)) {
+			return false;
+		}
+		BSTree otherTree = (BSTree) obj;
+		return equals(this.root.getInfo(), otherTree.root.getInfo()) && equals(this.root.getLeft(), otherTree.root.getLeft())
+				&& equals(this.root.getRight(), otherTree.root.getRight());
+	}
+
+	private boolean equals(Object x, Object y) {
+		if (x == null)
+			return y == null;
+		return x.equals(y);
+	}
+
+	@Override
+	public BSTree<T> clone() {
+		BSTree<T> auxTree = new BSTree<>();
+		auxTree.setRoot(cloneTree(root));
+		return auxTree;
+	}
+
+	private BSTNode<T> cloneTree(BSTNode<T> root) {
+		if (root == null)
+			return null;
+		BSTNode<T> newNode = new BSTNode<T>(root.getInfo());
+		newNode.left = cloneTree(root.left);
+		newNode.right = cloneTree(root.right);
+		return newNode;
+	}
+
 	/**
 	 * @return La altura del arbol teniendo en cuenta que un arbol sin nodos tiene
 	 *         altura 0
 	 */
 	public int getHeight() {
-		if(root==null){
-	        return 0;
-	    }
-	    else{
-	        return findHeight(root);
-	    }
+		if (root == null) {
+			return 0;
+		} else {
+			return findHeight(root);
+		}
 	}
 
-	private int findHeight(BSTNode<T> aNode){
-	    int heightLeft = 0;
-	    int heightRight = 0;
-	    if(aNode.left!=null)
-	        heightLeft = findHeight(aNode.left);
-	    if(aNode.right!=null)
-	        heightRight = findHeight(aNode.right);
-	    if(heightLeft > heightRight){
-	        return heightLeft+1;
-	    }
-	    else{
-	        return heightRight+1;
-	    }
+	private int findHeight(BSTNode<T> aNode) {
+		int heightLeft = 0;
+		int heightRight = 0;
+		if (aNode.left != null)
+			heightLeft = findHeight(aNode.left);
+		if (aNode.right != null)
+			heightRight = findHeight(aNode.right);
+		if (heightLeft > heightRight) {
+			return heightLeft + 1;
+		} else {
+			return heightRight + 1;
+		}
 	}
-	
+
 	/**
 	 * Método que añade un nodo al árbol
 	 *
-	 * @param node
-	 *            El objeto comparable que tiene que insertar
+	 * @param node El objeto comparable que tiene que insertar
 	 * @return true cuando lo inserta 0, -1 cuando no lo hace ya existía y cualquier
 	 *         otro problema -2.
 	 */
@@ -64,10 +93,8 @@ public class BSTree<T extends Comparable<T>> {
 	/**
 	 * Método recursivo que añade el nodo que pasamos como parámetro
 	 *
-	 * @param node
-	 *            El nodo que tiene que insertar
-	 * @param theRoot
-	 *            Nodo root del árbol
+	 * @param node    El nodo que tiene que insertar
+	 * @param theRoot Nodo root del árbol
 	 * @return Nodo root del árbol
 	 */
 
@@ -88,8 +115,7 @@ public class BSTree<T extends Comparable<T>> {
 	/**
 	 * Método que busca un nodo
 	 *
-	 * @param node
-	 *            El objeto comparable que se busca
+	 * @param node El objeto comparable que se busca
 	 * @return El objeto que se busca (completo) si lo encuentra - (null) si no lo
 	 *         encuentra
 	 */
@@ -108,13 +134,10 @@ public class BSTree<T extends Comparable<T>> {
 	/**
 	 * Método recursivo que busca un nodo
 	 *
-	 * @param nodo
-	 *            El objeto comparable que se busca
-	 * @param raiz
-	 *            Nodo root del árbol
+	 * @param nodo El objeto comparable que se busca
+	 * @param raiz Nodo root del árbol
 	 * @return true si lo encuentra, false si no lo encuentra
 	 */
-
 	private T search(BSTNode<T> raiz, T nodo) {
 		if (raiz == null)
 			return null;
@@ -142,8 +165,7 @@ public class BSTree<T extends Comparable<T>> {
 	/**
 	 * Método que genera un String con el recorrido en pre-orden (izquierda-derecha)
 	 *
-	 * @param theRoot
-	 *            Nodo root del árbol
+	 * @param theRoot Nodo root del árbol
 	 * @return un string con el recorrido pre-orden
 	 */
 	private String preOrderRec(BSTNode<T> theRoot) {
@@ -168,8 +190,7 @@ public class BSTree<T extends Comparable<T>> {
 	 * Método que genera un String con el recorrido en post-orden
 	 * (izquierda-derecha)
 	 *
-	 * @param theRoot
-	 *            Nodo root del árbol
+	 * @param theRoot Nodo root del árbol
 	 * @return un string con el recorrido post-orden
 	 */
 	private String postOrderRec(BSTNode<T> theRoot) {
@@ -192,8 +213,7 @@ public class BSTree<T extends Comparable<T>> {
 	/**
 	 * Método que genera un String con el recorrido en in-orden (izquierda-derecha)
 	 *
-	 * @param theRoot
-	 *            Nodo root del árbol
+	 * @param theRoot Nodo root del árbol
 	 * @return un string con el recorrido in orden
 	 */
 	private String inOrderRec(BSTNode<T> theRoot) {
@@ -207,8 +227,7 @@ public class BSTree<T extends Comparable<T>> {
 	/**
 	 * Método que borra un nodo
 	 *
-	 * @param node
-	 *            El objeto que se quiere borrar
+	 * @param node El objeto que se quiere borrar
 	 * @return 0 si lo ha borrado, -1 en caso de no existír y -2 en cualquier otro
 	 *         caso.
 	 */
@@ -232,8 +251,7 @@ public class BSTree<T extends Comparable<T>> {
 	/**
 	 * Método recursivo que borra un nodo
 	 *
-	 * @param theRoot
-	 *            El objeto comparable que se quiere borrar
+	 * @param theRoot El objeto comparable que se quiere borrar
 	 * @return nodo root del arbol despues del borrado, si lo ha borrado o lanza una
 	 *         excepcion si el node es null
 	 */
@@ -260,8 +278,7 @@ public class BSTree<T extends Comparable<T>> {
 	/**
 	 * Método recursivo que devuelve el nodo máximo
 	 *
-	 * @param theRoot
-	 *            root del arbol
+	 * @param theRoot root del arbol
 	 * @return el máximo
 	 */
 	protected T getMax(BSTNode<T> theRoot) {
@@ -291,8 +308,7 @@ public class BSTree<T extends Comparable<T>> {
 	 * Preorder recursivo para el toString para las pruebas en donde los nodos null
 	 * se sustituyen por _
 	 * 
-	 * @param theRoot
-	 *            nodo que se evalua
+	 * @param theRoot nodo que se evalua
 	 * @return cadena del recorrido Preorder.
 	 */
 	private String preOrderPruebas(BSTNode<T> theRoot) {
@@ -318,10 +334,8 @@ public class BSTree<T extends Comparable<T>> {
 	 * mostrar los distintos niveles Utiliza el toString de la información
 	 * almacenada
 	 *
-	 * @param p
-	 *            La raíz del árbol a mostrar tumbado
-	 * @param esp
-	 *            El espaciado en número de tabulaciones para indicar la profundidad
+	 * @param p   La raíz del árbol a mostrar tumbado
+	 * @param esp El espaciado en número de tabulaciones para indicar la profundidad
 	 * @return El String generado
 	 */
 	protected String tumbarArbol(BSTNode<T> p, int esp) {

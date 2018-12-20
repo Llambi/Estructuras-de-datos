@@ -20,6 +20,15 @@ public class BSTNode<T extends Comparable<T>> {
         setLeft(null);
         setRight(null);
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj == null || !(obj instanceof BSTNode)) {
+			return false;
+		}
+		return this.getInfo().equals(((BSTNode)obj).getInfo());
+    	
+    }
 
     /**
      * Metodo para obtener la informacion del nodo.

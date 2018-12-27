@@ -4,11 +4,11 @@ Repositorio que contiene el proyecto de las prácticas de Estructuras de Datos (
 
 ## Contenido
 
-- [ x ] Algoritmia
-- [ x ] Grafos
-- [ x ] Árboles
-- [ x ] Montícuculos
-- [ x ] Tablas Hash
+- [x] Algoritmia
+- [x] Grafos
+- [x] Árboles
+- [x] Montícuculos
+- [x] Tablas Hash
 
 ### Algoritmia
 

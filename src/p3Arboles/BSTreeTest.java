@@ -8,7 +8,22 @@ public class BSTreeTest<T extends Comparable<T>> {
 
     BSTree<Integer> arbol = new BSTree<>();
 
-
+    @Test
+    public void cloneEqualsTest() {
+    	 assertTrue(arbol.addNode(14)==0);
+         assertTrue(arbol.addNode(47)==0);
+         assertTrue(arbol.addNode(4)==0);
+         assertTrue(arbol.addNode(2)==0);
+         assertTrue(arbol.addNode(8)==0);
+         assertTrue(arbol.addNode(34)==0);
+         assertTrue(arbol.addNode(94)==0);
+         assertTrue(arbol.addNode(7)==0);
+         
+         
+         BSTree<Integer> arbolClone = arbol.clone();
+         assertTrue(arbol.equals(arbolClone));
+    }
+    
     @Test
     public void addNodetest() {
 

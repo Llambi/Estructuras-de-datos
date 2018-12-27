@@ -7,8 +7,8 @@ package p3Arboles;
  */
 public class BSTNode<T extends Comparable<T>> {
     private T info;
-    private BSTNode<T> left;
-    private BSTNode<T> right;
+    protected BSTNode<T> left;
+    BSTNode<T> right;
 
     /**
      * Constructor de la clase.
@@ -19,6 +19,15 @@ public class BSTNode<T extends Comparable<T>> {
         this.info = info;
         setLeft(null);
         setRight(null);
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj == null || !(obj instanceof BSTNode)) {
+			return false;
+		}
+		return this.getInfo().equals(((BSTNode)obj).getInfo());
+    	
     }
 
     /**
